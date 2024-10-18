@@ -6,25 +6,31 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 
 class QRScannerActivity : AppCompatActivity() {
 
-    private lateinit var startScanningButton: Button
     private lateinit var scanResult: TextView
-
-    // Register the activity result launcher
-
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scanner)
 
         scanResult = findViewById(R.id.scan_info)
+        toolbar = findViewById(R.id.toolbar)
 
-        val options = ScanOptions().setPrompt("Scan a QR code")
+        toolbar.setNavigationOnClickListener {
+            finish() // Finish the activity and go back
+        }
+
+        val options = ScanOptions()
+            .setPrompt("Scan a QR code")
+            .setOrientationLocked(true)
+
         qrCodeLauncher.launch(options)
     }
 
