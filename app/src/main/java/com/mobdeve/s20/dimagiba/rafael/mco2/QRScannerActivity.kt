@@ -24,7 +24,7 @@ class QRScannerActivity : AppCompatActivity() {
 
         scanResult = findViewById(R.id.scan_info)
 
-        val options = ScanOptions().setOrientationLocked(true).setPrompt("Scan a QR code")
+        val options = ScanOptions().setPrompt("Scan a QR code")
         qrCodeLauncher.launch(options)
     }
 
