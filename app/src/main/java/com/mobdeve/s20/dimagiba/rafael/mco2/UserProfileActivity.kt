@@ -73,7 +73,7 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         this.recyclerView = viewBinding.userProfilePostsRv
-        this.postAdapter = postAdapter(own_data)
+        this.postAdapter = postAdapter(own_data, this)
         this.recyclerView.adapter = postAdapter
         this.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -97,7 +97,7 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             deselect(userFoundPostsBtn)
 
-            this.postAdapter = postAdapter(own_data)
+            this.postAdapter = postAdapter(own_data, this)
             this.recyclerView.adapter = postAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
         }
@@ -107,7 +107,7 @@ class UserProfileActivity : AppCompatActivity() {
             select(userJoinedPostsBtn)
             deselect(userFoundPostsBtn)
 
-            this.postAdapter = postAdapter(joined_data)
+            this.postAdapter = postAdapter(joined_data, this)
             this.recyclerView.adapter = postAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
         }
@@ -117,7 +117,7 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             select(userFoundPostsBtn)
 
-            this.postAdapter = postAdapter(found_data)
+            this.postAdapter = postAdapter(found_data, this)
             this.recyclerView.adapter = postAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
         }
