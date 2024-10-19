@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTintMode="src_over"
+    tools:context=".UserProfileActivity">
+
+    <FrameLayout
+        android:id="@+id/user_profile_banner_fl"
+        android:layout_width="0dp"
+        android:layout_height="230dp"
+        android:background="@color/gold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/user_profile_back_bt"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
+    <ImageButton
+        android:id="@+id/user_profile_logout_bt"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logout" />
+
+    <ImageView
+        android:id="@+id/user_profile_pic_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@id/user_profile_banner_fl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/chopper" />
+
+    <LinearLayout
+        android:id="@+id/user_profile_details_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/user_profile_pic_iv"
+        app:layout_constraintStart_toEndOf="@+id/user_profile_pic_iv"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_pic_iv">
+
+        <TextView
+            android:id="@+id/user_profile_username_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/readex_pro"
+            android:text="chopper"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_profile_posts_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_banner_fl"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:id="@+id/user_profile_filters_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/user_profile_user_posts_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_gold"
+                android:backgroundTintMode="src_atop"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                android:text="Posts"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:cornerRadius="0dp" />
+
+            <FrameLayout
+                android:id="@+id/divider_1_fl"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_gold">
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/user_profile_joined_posts_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Joined"
+                android:textAllCaps="false"
+                android:textColor="@color/light_gold"
+                android:textStyle="bold"
+                app:cornerRadius="0dp"
+                app:strokeWidth="0dp" />
+
+            <FrameLayout
+                android:id="@+id/divider_2_fl"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_gold">
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/user_profile_found_posts_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Found"
+                android:textAllCaps="false"
+                android:textColor="@color/light_gold"
+                android:textStyle="bold"
+                app:cornerRadius="0dp"
+                app:strokeColor="#AD2020" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_profile_posts_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
