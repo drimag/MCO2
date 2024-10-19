@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="8dp"
-        android:text="10 Plundered"
+        android:text="10 Plunderers"
         app:layout_constraintStart_toEndOf="@id/participantsTv"
         app:layout_constraintTop_toBottomOf="@id/treasureImageIv" />
 

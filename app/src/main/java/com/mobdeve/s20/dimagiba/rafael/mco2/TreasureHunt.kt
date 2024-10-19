@@ -1,11 +1,12 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
 class TreasureHunt(
-    description: String,
-    poster: User,
-    date: CustomDate,
-    imageId: Int? = null
+    var description: String,
+    var poster: User,
+    var date: CustomDate,
+    var imageId: Int? = null
 ) {
+
     var participants: MutableList<User> = mutableListOf()
         private set
     var winners: MutableList<User> = mutableListOf()
