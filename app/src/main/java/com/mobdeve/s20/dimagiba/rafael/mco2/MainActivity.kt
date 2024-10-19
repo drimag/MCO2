@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         this.recyclerView = viewBinding.recyclerView
-        this.postAdapter = postAdapter(filtered_data)
+        this.postAdapter = postAdapter(filtered_data, this)
         this.recyclerView.adapter = postAdapter
         this.recyclerView.layoutManager = LinearLayoutManager(this)
     }

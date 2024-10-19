@@ -76,7 +76,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/trade_winds"
-        android:text="Big Big Gold"
+        android:text="Treasure Hunt"
         android:textColor="#E7951D"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -149,22 +149,11 @@
         app:layout_constraintStart_toEndOf="@+id/pirateCountHeader"
         app:layout_constraintTop_toTopOf="@+id/pirateCountHeader" />
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/readex_pro"
-        android:text="Button"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/treasureImage"
-        app:layout_constraintStart_toStartOf="@+id/treasureImage" />
-
     <TextView
         android:id="@+id/treasureLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Makati"
         app:layout_constraintBottom_toBottomOf="@+id/treasureLocationHeader"
         app:layout_constraintStart_toEndOf="@+id/treasureLocationHeader"
         app:layout_constraintTop_toTopOf="@+id/treasureLocationHeader" />
