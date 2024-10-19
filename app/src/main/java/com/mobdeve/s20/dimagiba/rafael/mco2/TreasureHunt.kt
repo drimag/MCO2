@@ -3,8 +3,6 @@ package com.mobdeve.s20.dimagiba.rafael.mco2
 class TreasureHunt {
     var description: String
         private set
-    var imageId: Int
-        private set
     var poster: User
         private set
     var date: CustomDate
@@ -13,27 +11,35 @@ class TreasureHunt {
         private set
     var winners: MutableList<User> = mutableListOf()
         private set
+    var imageId: Int? = null
+        private set
 
-    constructor(description: String, imageId: Int, poster: User, date: CustomDate) {
+    constructor(description: String, poster: User, date: CustomDate, imageId: Int) {
         this.description = description
+        this.poster = poster
+        this.date = date
         this.imageId = imageId
+    }
+
+    constructor(description: String, poster: User, date: CustomDate) {
+        this.description = description
         this.poster = poster
         this.date = date
     }
 
-    fun addWinner(user: User) {
-        winners.add(user)
+    fun addWinner(winner: User) {
+        winners.add(winner)
     }
 
-    fun removeWinner(user: User) {
-        winners.remove(user)
+    fun removeWinner(winner: User) {
+        winners.remove(winner)
     }
 
-    fun addParticipant(user: User) {
-        participants.add(user)
+    fun addParticipant(participant: User) {
+        participants.add(participant)
     }
 
-    fun removeParticipant(user: User) {
-        participants.remove(user)
+    fun removeParticipant(participant: User) {
+        participants.remove(participant)
     }
 }
