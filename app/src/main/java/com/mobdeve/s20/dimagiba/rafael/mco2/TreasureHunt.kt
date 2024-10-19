@@ -1,30 +1,18 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
-class TreasureHunt {
-    var description: String
-        private set
-    var poster: User
-        private set
-    var date: CustomDate
-        private set
+class TreasureHunt(
+    description: String,
+    poster: User,
+    date: CustomDate,
+    imageId: Int? = null
+) {
     var participants: MutableList<User> = mutableListOf()
         private set
     var winners: MutableList<User> = mutableListOf()
         private set
-    var imageId: Int? = null
-        private set
 
-    constructor(description: String, poster: User, date: CustomDate, imageId: Int) {
-        this.description = description
-        this.poster = poster
-        this.date = date
-        this.imageId = imageId
-    }
-
-    constructor(description: String, poster: User, date: CustomDate) {
-        this.description = description
-        this.poster = poster
-        this.date = date
+    init {
+        poster.addPost(this)
     }
 
     fun addWinner(winner: User) {
