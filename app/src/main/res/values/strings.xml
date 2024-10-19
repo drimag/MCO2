@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MCO2</string>
+    <string name="register_username_hint"><font size="12">* Must be 6 - 18 characters.</font></string>
+    <string name="register_password_hint"><font size="12">* 8 characters minimum.\n* Must have at least 1 letter, 1 number, and 1 symbol.</font></string>
 </resources>
