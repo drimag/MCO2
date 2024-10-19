@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity() {
                 .into(viewBinding.profileImage)
         }
 
+        userProfilePic = findViewById(R.id.profileImage)
         userProfilePic.setOnClickListener{
             val intent = Intent(this, UserProfileActivity::class.java)
             startActivity(intent)
