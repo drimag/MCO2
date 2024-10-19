@@ -11,29 +11,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class TreasureActivity : AppCompatActivity() {
+class OwnTreasureActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_treasure)
+        setContentView(R.layout.activity_pending_post)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val username = intent.getStringExtra("username")
+        val username = intent.getStringExtra("username1")
         val usernameTv = findViewById<TextView>(R.id.treasureUsername)
         usernameTv.text = username
 
-        val description = intent.getStringExtra("description")
+        val description = intent.getStringExtra("description1")
         val descriptionTv = findViewById<TextView>(R.id.treasureDescription)
         descriptionTv.text = description
 
         val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
-        val byteArray = intent.getByteArrayExtra("pfp")
+        val byteArray = intent.getByteArrayExtra("pfp1")
 
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
         profilePicIV.setImageBitmap(bitmap)
@@ -44,7 +44,7 @@ class TreasureActivity : AppCompatActivity() {
             finish()
         }
 
-        val joinButton = findViewById<Button>(R.id.treasureJoin)
+        val joinButton = findViewById<Button>(R.id.treasureVerify)
 
         joinButton.setOnClickListener {
             Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
