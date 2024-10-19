@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: postAdapter
+    private lateinit var userProfilePic: ImageView
 
     private fun showLocationFilterDialog() {
         val locations = arrayOf(
@@ -138,6 +139,12 @@ class MainActivity : AppCompatActivity() {
                 .load(it)
                 .circleCrop()
                 .into(viewBinding.profileImage)
+        }
+
+        userProfilePic = findViewById(R.id.profileImage)
+        userProfilePic.setOnClickListener{
+            val intent = Intent(this, UserProfileActivity::class.java)
+            startActivity(intent)
         }
 
         val filterIcon: ImageView = findViewById(R.id.filterIcon)
