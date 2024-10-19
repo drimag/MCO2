@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_by_today"
+        android:title="Posted Today" />
+    <item
+        android:id="@+id/filter_by_last_week"
+        android:title="Posted Last Week" />
+    <item
+        android:id="@+id/filter_by_last_month"
+        android:title="Posted Last Month" />
+    <item
+        android:id="@+id/filter_by_year"
+        android:title="Posted This Year" />
+    <item
+        android:id="@+id/filter_by_location"
+        android:title="Filter by Location" />
+</menu>

@@ -60,7 +60,7 @@
     <ImageView
         android:id="@+id/treasureImageIv"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:maxHeight="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginVertical="4dp"
