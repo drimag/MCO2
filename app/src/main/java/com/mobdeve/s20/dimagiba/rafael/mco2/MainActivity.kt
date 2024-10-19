@@ -112,6 +112,8 @@ class MainActivity : AppCompatActivity() {
     private val newTreasureResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {
+            val description : String = result.data?.getStringExtra(AddTreasureActivity.TREASURE_CONTENT_KEY)!!
+
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle("Reminder")
             builder.setMessage("Please Remember to Verify Your Post in Your Profile Page!")
@@ -146,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
         // new treasure listener
         viewBinding.fab.setOnClickListener {
-            val intent = Intent(this, AddTreasureActivity::class.java)
+            val intent : Intent = Intent(this@MainActivity, AddTreasureActivity::class.java)
             this.newTreasureResultLauncher.launch(intent)
         }
 
