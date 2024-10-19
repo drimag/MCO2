@@ -3,6 +3,7 @@ package com.mobdeve.s20.dimagiba.rafael.mco2
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,6 +25,14 @@ class LoginActivity : AppCompatActivity() {
 
         toRegisterBtn.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+        val loginBtn = findViewById<Button>(R.id.login_submit_bt)
+
+        loginBtn.setOnClickListener {
+            Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
