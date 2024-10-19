@@ -4,6 +4,7 @@ class TreasureHunt(
     var description: String,
     var poster: User,
     var date: CustomDate,
+    var location: Location,
     var imageId: Int? = null
 ) {
 
