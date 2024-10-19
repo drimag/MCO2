@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OwnTreasureActivity">
+
+    <TextView
+        android:id="@+id/treasureDescription"
+        android:layout_width="360dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="Long description of the topic just yap incessantly over here just to check how long you can have it it really doesn't matter as long as it fills the screen and you can check if the constraints are properly set or not if it is great if not better go ahead and work it on it buddy those texts will not fix themselves"
+        app:layout_constraintStart_toStartOf="@+id/userHeader"
+        app:layout_constraintTop_toBottomOf="@+id/treasureUsername" />
+
+    <Button
+        android:id="@+id/treasureLeave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/readex_pro"
+        android:text="Back"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/treasureQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/treasureQuestion" />
+
+    <Button
+        android:id="@+id/treasureVerify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/readex_pro"
+        android:text="Verify"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/treasureQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/treasureQuestion" />
+
+    <ImageView
+        android:id="@+id/treasureImage"
+        android:layout_width="136dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/luffy" />
+
+    <TextView
+        android:id="@+id/startDateHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="Start Date:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/treasureName"
+        app:layout_constraintTop_toBottomOf="@+id/treasureName" />
+
+    <TextView
+        android:id="@+id/treasureUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="monkeydeeluff"
+        app:layout_constraintBottom_toBottomOf="@+id/userHeader"
+        app:layout_constraintStart_toEndOf="@+id/userHeader"
+        app:layout_constraintTop_toTopOf="@+id/userHeader" />
+
+    <TextView
+        android:id="@+id/treasureName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/trade_winds"
+        android:text="Treasure Hunt"
+        android:textColor="#E7951D"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/treasureImage"
+        app:layout_constraintTop_toTopOf="@+id/treasureImage" />
+
+    <TextView
+        android:id="@+id/pirateCountHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="Pirate Count:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/startDateHeader"
+        app:layout_constraintTop_toBottomOf="@+id/startDateHeader" />
+
+    <TextView
+        android:id="@+id/userHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="By"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/treasureImage"
+        app:layout_constraintTop_toBottomOf="@+id/treasureImage" />
+
+    <TextView
+        android:id="@+id/treasureQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="Pending Verification"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/treasureDescription"
+        app:layout_constraintStart_toStartOf="@+id/treasureLocationHeader"
+        app:layout_constraintTop_toBottomOf="@+id/treasureLocationHeader" />
+
+    <TextView
+        android:id="@+id/treasureLocationHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/readex_pro"
+        android:text="Located at: "
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/treasureDescription"
+        app:layout_constraintTop_toBottomOf="@+id/treasureDescription" />
+
+    <TextView
+        android:id="@+id/startDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Jan 01, 2024"
+        app:layout_constraintBottom_toBottomOf="@+id/startDateHeader"
+        app:layout_constraintStart_toEndOf="@+id/startDateHeader"
+        app:layout_constraintTop_toTopOf="@+id/startDateHeader" />
+
+    <TextView
+        android:id="@+id/pirateCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="100"
+        app:layout_constraintBottom_toBottomOf="@+id/pirateCountHeader"
+        app:layout_constraintStart_toEndOf="@+id/pirateCountHeader"
+        app:layout_constraintTop_toTopOf="@+id/pirateCountHeader" />
+
+    <TextView
+        android:id="@+id/treasureLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Makati"
+        app:layout_constraintBottom_toBottomOf="@+id/treasureLocationHeader"
+        app:layout_constraintStart_toEndOf="@+id/treasureLocationHeader"
+        app:layout_constraintTop_toTopOf="@+id/treasureLocationHeader" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

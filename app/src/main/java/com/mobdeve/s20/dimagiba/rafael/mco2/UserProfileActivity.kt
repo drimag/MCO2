@@ -29,7 +29,7 @@ class UserProfileActivity : AppCompatActivity() {
         val user3 = User("luffy", R.drawable.luffy)
 
         val post1 = TreasureHunt("find my treasure guys heheheheh", user1, CustomDate(2020, 10, 9), Location("Taguig"))
-        val post2 = TreasureHunt("wala magawa hehe", user1, CustomDate(2020, 10, 4), Location("Taguig"))
+        val post2 = TreasureHunt("wala magawa hehehe", user1, CustomDate(2020, 10, 4), Location("Taguig"))
         val post3 = TreasureHunt("first time in Pateros", user1, CustomDate(2020, 6, 15), Location("Pateros"))
 
         val post4 = TreasureHunt("DI NYO TO MAHAHANAP LEGIT", user2, CustomDate(2020, 10, 9), Location("Makati"))
@@ -51,6 +51,7 @@ class UserProfileActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: postAdapter
+    private lateinit var ownPostAdapter: ownPostAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +74,8 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         this.recyclerView = viewBinding.userProfilePostsRv
-        this.postAdapter = postAdapter(own_data, this)
-        this.recyclerView.adapter = postAdapter
+        this.ownPostAdapter = ownPostAdapter(own_data, this)
+        this.recyclerView.adapter = ownPostAdapter
         this.recyclerView.layoutManager = LinearLayoutManager(this)
 
         val userPostsBtn: Button = findViewById<Button>(R.id.user_profile_user_posts_bt)
@@ -97,8 +98,8 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             deselect(userFoundPostsBtn)
 
-            this.postAdapter = postAdapter(own_data, this)
-            this.recyclerView.adapter = postAdapter
+            this.ownPostAdapter = ownPostAdapter(own_data, this)
+            this.recyclerView.adapter = ownPostAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
         }
 

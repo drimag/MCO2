@@ -27,14 +27,14 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
         myViewHolder.itemView.setOnClickListener {
             val intent : Intent = Intent(myViewHolder.itemView.context, OwnTreasureActivity::class.java)
 
-            intent.putExtra("username", viewBinding.usernameTv.text.toString())
-            intent.putExtra("description", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("username1", viewBinding.usernameTv.text.toString())
+            intent.putExtra("description1", viewBinding.descriptionTv.text.toString())
             val drawable = viewBinding.userImageIv.drawable as BitmapDrawable
             val bitmap = drawable.bitmap
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
-            intent.putExtra("pfp", byteArray)
+            intent.putExtra("pfp1", byteArray)
 //            val postImageId = viewBinding.userImageIv.tag as? Int
 //            intent.putExtra(TreasureActivity.PFP_KEY, imageId)
 //            intent.putExtra(TreasureActivity.DATE_KEY, viewBinding.dateTv.text.toString())

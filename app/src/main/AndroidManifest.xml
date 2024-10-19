@@ -25,6 +25,9 @@
             android:name=".TreasureActivity"
             android:exported="false" />
         <activity
+            android:name=".OwnTreasureActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddTreasureActivity"
             android:exported="false" />
         <activity
