@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Button
@@ -47,8 +48,11 @@ class OwnTreasureActivity : AppCompatActivity() {
         val joinButton = findViewById<Button>(R.id.treasureVerify)
 
         joinButton.setOnClickListener {
-            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
-            finish()
+            val intent = Intent(this, QRScannerActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "Logic not yet implemented", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
+//            finish()
         }
 
     }
