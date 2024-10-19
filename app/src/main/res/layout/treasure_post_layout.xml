@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp">
+
+    <ImageView
+        android:id="@+id/userImageIv"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/luffy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/userInfoLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/userImageIv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/userImageIv"
+        android:paddingHorizontal="4dp">
+
+        <TextView
+            android:id="@+id/usernameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="monkey d"
+            android:textStyle="bold"
+            android:paddingHorizontal="4dp"/>
+
+        <TextView
+            android:id="@+id/dateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jan 1"
+            android:textColor="@android:color/darker_gray"
+            android:paddingHorizontal="4dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/descriptionTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="This is a tweet content. Now im extending it so that I can see how it would look very long"
+        app:layout_constraintStart_toEndOf="@id/userImageIv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userInfoLayout" />
+
+    <ImageView
+        android:id="@+id/treasureImageIv"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginVertical="4dp"
+        android:src="@drawable/dlsu"
+        app:layout_constraintStart_toStartOf="@id/descriptionTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTv"
+        android:scaleType="centerCrop"/>
+
+    <!-- Number of Likes -->
+    <TextView
+        android:id="@+id/participantsTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="100 Pirates"
+        app:layout_constraintStart_toStartOf="@id/descriptionTv"
+        app:layout_constraintTop_toBottomOf="@id/treasureImageIv" />
+
+    <TextView
+        android:id="@+id/winnersTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:text="10 Plundered"
+        app:layout_constraintStart_toEndOf="@id/participantsTv"
+        app:layout_constraintTop_toBottomOf="@id/treasureImageIv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
