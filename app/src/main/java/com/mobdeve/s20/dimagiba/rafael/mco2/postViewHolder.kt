@@ -21,8 +21,8 @@ class postViewHolder (private val viewBinding: TreasurePostLayoutBinding): Recyc
         post.imageId?.let { this.viewBinding.treasureImageIv.setImageResource(it) }
         this.viewBinding.locationDateTv.text = "${post.location.getCity()} · ${post.date.toStringNoYear()}"
         this.viewBinding.descriptionTv.text = post.description
-        this.viewBinding.participantsTv.text = "${post.participants.size} Pirates"
-        this.viewBinding.winnersTv.text = "${post.winners.size} Plundered"
+        this.viewBinding.participantsTv.text = "${post.participants.size}"
+        this.viewBinding.winnersTv.text = "${post.winners.size}"
     }
 
 

@@ -32,12 +32,25 @@ class TreasureActivity : AppCompatActivity() {
         val descriptionTv = findViewById<TextView>(R.id.treasureDescription)
         descriptionTv.text = description
 
+        val pirates = intent.getStringExtra("pirates")
+        val piratesTv = findViewById<TextView>(R.id.pirateCount)
+        piratesTv.text = pirates
+
+        val plundered = intent.getStringExtra("plundered")
+        val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
+        plunderedTv.text = plundered
+
         val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
         val byteArray = intent.getByteArrayExtra("pfp")
 
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
         profilePicIV.setImageBitmap(bitmap)
 
+        val postPicIV = findViewById<ImageView>(R.id.postImageIv)
+        val postByteArray = intent.getByteArrayExtra("postImage")
+
+        val postBitmap = BitmapFactory.decodeByteArray(postByteArray, 0, postByteArray!!.size)
+        postPicIV.setImageBitmap(postBitmap)
         val cancelButton = findViewById<Button>(R.id.treasureLeave)
 
         cancelButton.setOnClickListener {

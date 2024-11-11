@@ -28,15 +28,23 @@ class postAdapter (private val data: ArrayList<TreasureHunt>, private val contex
 
             intent.putExtra("username", viewBinding.usernameTv.text.toString())
             intent.putExtra("description", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("pirates", viewBinding.participantsTv.text.toString())
+            intent.putExtra("plundered", viewBinding.winnersTv.text.toString())
             val drawable = viewBinding.userImageIv.drawable as BitmapDrawable
             val bitmap = drawable.bitmap
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
             intent.putExtra("pfp", byteArray)
-//            val postImageId = viewBinding.userImageIv.tag as? Int
-//            intent.putExtra(TreasureActivity.PFP_KEY, imageId)
-//            intent.putExtra(TreasureActivity.DATE_KEY, viewBinding.dateTv.text.toString())
+
+            val postImage_drawable = viewBinding.treasureImageIv.drawable as BitmapDrawable
+            val postImage_bitmap = postImage_drawable.bitmap
+            val postImage_stream = ByteArrayOutputStream()
+            postImage_bitmap.compress(Bitmap.CompressFormat.PNG, 100, postImage_stream)
+            val postImage_byteArray = postImage_stream.toByteArray()
+            intent.putExtra("postImage", postImage_byteArray)
+            // Fix date and loc (separate two in layout)
+//          intent.putExtra(TreasureActivity.DATE_KEY, viewBinding.dateTv.text.toString())
 
             context.startActivity(intent)
         }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,37 +10,38 @@
         android:id="@+id/userImageIv"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="10dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/luffy"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/userInfoLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@id/userImageIv"
+        android:paddingHorizontal="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/userImageIv"
-        android:paddingHorizontal="4dp">
+        app:layout_constraintStart_toEndOf="@id/userImageIv"
+        app:layout_constraintTop_toTopOf="@id/userImageIv">
 
         <TextView
             android:id="@+id/usernameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
             android:text="monkey d"
-            android:textStyle="bold"
-            android:paddingHorizontal="4dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/locationDateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
             android:text="Makati · Jan 1"
-            android:textColor="@android:color/darker_gray"
-            android:paddingHorizontal="4dp"/>
+            android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
 
@@ -49,44 +49,106 @@
         android:id="@+id/descriptionTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
         android:text="This is a tweet content. Now im extending it so that I can see how it would look very long"
-        app:layout_constraintStart_toEndOf="@id/userImageIv"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userImageIv"
         app:layout_constraintTop_toBottomOf="@id/userInfoLayout" />
 
     <ImageView
         android:id="@+id/treasureImageIv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxHeight="200dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginVertical="4dp"
-        app:layout_constraintStart_toStartOf="@id/descriptionTv"
+        android:layout_marginEnd="10dp"
+        android:maxHeight="200dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionTv"
-        android:scaleType="centerCrop"/>
+        app:layout_constraintStart_toStartOf="@id/descriptionTv"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTv" />
 
     <!-- Number of Likes -->
-    <TextView
-        android:id="@+id/participantsTv"
+    <LinearLayout
+        android:id="@+id/participants_ll"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="100 Pirates"
-        app:layout_constraintStart_toStartOf="@id/descriptionTv"
-        app:layout_constraintTop_toBottomOf="@id/treasureImageIv" />
-
-    <TextView
-        android:id="@+id/winnersTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:text="10 Plunderers"
-        app:layout_constraintStart_toEndOf="@id/participantsTv"
-        app:layout_constraintTop_toBottomOf="@id/treasureImageIv" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/layout_rounded"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@id/view"
+        app:layout_constraintLeft_toRightOf="@id/userImageIv"
+        app:layout_constraintTop_toBottomOf="@id/treasureImageIv">
 
+        <TextView
+            android:id="@+id/participantsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/pirates_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_hook" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/winners_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/layout_rounded"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@id/view"
+        app:layout_constraintLeft_toRightOf="@id/participants_ll"
+        app:layout_constraintTop_toBottomOf="@id/treasureImageIv">
+
+        <TextView
+            android:id="@+id/winnersTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/plundered_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="4dp"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_plundered" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winnersTv" />
 </androidx.constraintlayout.widget.ConstraintLayout>
