@@ -7,284 +7,318 @@
     android:layout_height="match_parent"
     tools:context=".TreasureActivity">
 
-    <TextView
-        android:id="@+id/treasureDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="28dp"
-        android:fontFamily="@font/readex_pro"
-        android:text="Long description of the topic just yap incessantly over here just to check how long you can have it it really doesn't matter as long as it fills the screen and you can check if the constraints are properly set or not if it is great if not better go ahead and work it on it buddy those texts will not fix themselves"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/treasure_location_ll"
-        app:layout_constraintTop_toBottomOf="@+id/treasure_location_ll" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/treasureLeave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/readex_pro"
-        android:text="Cancel"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/treasureQuestion"
-        app:layout_constraintTop_toBottomOf="@+id/treasureQuestion" />
-
-    <Button
-        android:id="@+id/treasureJoin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/readex_pro"
-        android:text="Join"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/treasureQuestion"
-        app:layout_constraintTop_toBottomOf="@+id/treasureQuestion" />
-
-    <ImageView
-        android:id="@+id/treasureImage"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="104dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/luffy" />
-
-    <LinearLayout
-        android:id="@+id/startdate_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/layout_rounded"
-        android:backgroundTint="@color/cool_grey"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="2dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="2dp"
-        app:layout_constraintStart_toStartOf="@+id/treasureUsername"
-        app:layout_constraintTop_toBottomOf="@+id/treasureUsername">
-
-        <TextView
-            android:id="@+id/startDateHeader"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/readex_pro"
-            android:text="Start Date:"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/startDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Jan 01, 2024"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/treasureName_tt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/gold"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/treasureUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:fontFamily="@font/readex_pro"
-        android:text="monkeydeeluff"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/userHeader"
-        app:layout_constraintTop_toBottomOf="@+id/userHeader" />
+                <TextView
+                    android:id="@+id/treasureName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/trade_winds"
+                    android:text="Treasure Hunt"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/userHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:fontFamily="@font/readex_pro"
-        android:text="Posted by:"
-        app:layout_constraintStart_toEndOf="@+id/treasureImage"
-        app:layout_constraintTop_toTopOf="@+id/treasureImage" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/treasureQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/readex_pro"
-        android:text="Are you ready to join?"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/treasureDescription"
-        app:layout_constraintStart_toStartOf="@+id/treasureDescription"
-        app:layout_constraintTop_toBottomOf="@+id/postImageIv" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
 
-    <LinearLayout
-        android:id="@+id/plundered_treasure_ll"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/layout_rounded"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="2dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="2dp"
-        app:layout_constraintStart_toStartOf="@+id/pirates_treasure_ll"
-        app:layout_constraintTop_toBottomOf="@+id/pirates_treasure_ll">
+                <ImageView
+                    android:id="@+id/treasureImage"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_marginRight="30dp"
+                    app:srcCompat="@drawable/luffy" />
 
-        <TextView
-            android:id="@+id/plundered_treasure_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="10"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/plundered_header_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="Plundered"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/userHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/readex_pro"
+                        android:text="Posted by:" />
 
-        <ImageView
-            android:id="@+id/plundered_treasure_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_plundered" />
+                    <TextView
+                        android:id="@+id/treasureUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/readex_pro"
+                        android:text="monkeydeeluff"
+                        android:textStyle="bold" />
 
-    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/startdate_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/layout_rounded"
+                        android:backgroundTint="@color/cool_grey"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp">
 
-    <LinearLayout
-        android:id="@+id/treasure_location_ll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/layout_rounded"
-        android:backgroundTint="@color/gold"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/treasureImage">
+                        <TextView
+                            android:id="@+id/startDateHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/readex_pro"
+                            android:text="Start Date:"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/location_treasure_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_location" />
+                        <TextView
+                            android:id="@+id/startDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Jan 01, 2024"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/treasureLocationHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:fontFamily="@font/readex_pro"
-            android:text="Location:"
-            android:textColor="@color/white"
-            android:textColorLink="@color/white"
-            android:textStyle="bold" />
+                    </LinearLayout>
 
-        <TextView
-            android:id="@+id/treasureLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Makati"
-            android:textColor="@color/white" />
-    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/pirates_treasure_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/layout_rounded"
+                        android:backgroundTint="@color/gray"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp">
 
-    <LinearLayout
-        android:id="@+id/treasureName_tt"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@color/gold"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+                        <TextView
+                            android:id="@+id/pirateCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/gold"
+                            android:text="100"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/treasureName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/trade_winds"
-            android:text="Treasure Hunt"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+                        <TextView
+                            android:id="@+id/pirateCountHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:fontFamily="@font/readex_pro"
+                            android:text="Pirates"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/pirates_treasure_ll"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/layout_rounded"
-        android:backgroundTint="@color/gray"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="2dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="2dp"
-        app:layout_constraintStart_toStartOf="@+id/startdate_ll"
-        app:layout_constraintTop_toBottomOf="@+id/startdate_ll">
+                        <ImageView
+                            android:id="@+id/pirates_treasure_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="@color/white"
+                            android:tint="@color/white"
+                            app:srcCompat="@drawable/ic_hook" />
 
-        <TextView
-            android:id="@+id/pirateCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/gold"
-            android:text="100"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+                    </LinearLayout>
 
-        <TextView
-            android:id="@+id/pirateCountHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:fontFamily="@font/readex_pro"
-            android:text="Pirates"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+                    <LinearLayout
+                        android:id="@+id/plundered_treasure_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/layout_rounded"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="2dp">
 
-        <ImageView
-            android:id="@+id/pirates_treasure_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:backgroundTint="@color/white"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/ic_hook" />
+                        <TextView
+                            android:id="@+id/plundered_treasure_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="10"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-    </LinearLayout>
+                        <TextView
+                            android:id="@+id/plundered_header_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:text="Plundered"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/postImageIv"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="28dp"
-        android:maxHeight="200dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/treasureDescription" />
+                        <ImageView
+                            android:id="@+id/plundered_treasure_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:tint="@color/white"
+                            app:srcCompat="@drawable/ic_plundered" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/layout_rounded"
+                android:backgroundTint="#E2E2E1"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:id="@+id/treasure_location_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_rounded"
+                    android:backgroundTint="@color/gold"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/location_treasure_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:tint="@color/white"
+                        app:srcCompat="@drawable/ic_location" />
+
+                    <TextView
+                        android:id="@+id/treasureLocationHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:fontFamily="@font/readex_pro"
+                        android:text="Location:"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/treasureLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Makati"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/treasureDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/layout_rounded"
+                    android:backgroundTint="#FFFFFF"
+                    android:fontFamily="@font/readex_pro"
+                    android:minHeight="80dp"
+                    android:padding="15dp"
+                    android:text="Long description of the topic just yap incessantly over here just to check how long you can have it it really doesn't matter as long as it fills the screen and you can check if the constraints are properly set or not if it is great if not better go ahead and work it on it buddy those texts will not fix themselves" />
+
+                <ImageView
+                    android:id="@+id/postImageIv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/layout_rounded"
+                android:backgroundTint="#FAEACD"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/treasureQuestion2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/readex_pro"
+                    android:gravity="center"
+                    android:text="Are you ready to join?"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/treasureDescription"
+                    app:layout_constraintStart_toStartOf="@+id/treasureDescription"
+                    app:layout_constraintTop_toBottomOf="@+id/postImageIv" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/treasureLeave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/readex_pro"
+                        android:text="Cancel"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/treasureJoin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/readex_pro"
+                        android:text="Join"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

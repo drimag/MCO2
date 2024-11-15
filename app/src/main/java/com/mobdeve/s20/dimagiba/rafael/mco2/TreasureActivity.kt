@@ -40,17 +40,27 @@ class TreasureActivity : AppCompatActivity() {
         val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
         plunderedTv.text = plundered
 
-        val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
-        val byteArray = intent.getByteArrayExtra("pfp")
+        val defaultArray = byteArrayOf()
 
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
-        profilePicIV.setImageBitmap(bitmap)
+        val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
+        val byteArray = intent.getByteArrayExtra("pfp") ?: defaultArray
+
+        if (byteArray.isNotEmpty()){
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+            profilePicIV.setImageBitmap(bitmap)
+        }
+
 
         val postPicIV = findViewById<ImageView>(R.id.postImageIv)
-        val postByteArray = intent.getByteArrayExtra("postImage")
+        val postByteArray = intent.getByteArrayExtra("postImage") ?: defaultArray
 
-        val postBitmap = BitmapFactory.decodeByteArray(postByteArray, 0, postByteArray!!.size)
-        postPicIV.setImageBitmap(postBitmap)
+
+        if (postByteArray.isNotEmpty()){
+
+            val postBitmap = BitmapFactory.decodeByteArray(postByteArray, 0, postByteArray.size)
+            postPicIV.setImageBitmap(postBitmap)
+        }
+
         val cancelButton = findViewById<Button>(R.id.treasureLeave)
 
         cancelButton.setOnClickListener {
