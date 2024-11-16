@@ -18,6 +18,10 @@ class Location {
         return this.city
     }
 
+    fun getFullLocation(): String {
+        return this.city + ", " + this.region
+    }
+
     companion object {
         private val cityString = arrayOf(
             "Caloocan",

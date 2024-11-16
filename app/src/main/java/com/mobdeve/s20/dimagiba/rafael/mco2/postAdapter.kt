@@ -46,8 +46,8 @@ class postAdapter (private val data: ArrayList<TreasureHunt>, private val contex
                 intent.putExtra("postImage", postImage_byteArray)
             }
 
-            // Fix date and loc (separate two in layout)
-//          intent.putExtra(TreasureActivity.DATE_KEY, viewBinding.dateTv.text.toString())
+            intent.putExtra("fullDate", viewBinding.fullDateTv.text.toString())
+            intent.putExtra("fullLocation", viewBinding.fullLocationTv.text.toString())
 
             context.startActivity(intent)
         }

@@ -40,6 +40,14 @@ class TreasureActivity : AppCompatActivity() {
         val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
         plunderedTv.text = plundered
 
+        val fullDate = intent.getStringExtra("fullDate")
+        val fullDateTv = findViewById<TextView>(R.id.startDate)
+        fullDateTv.text = fullDate
+
+        val fullLocation = intent.getStringExtra("fullLocation")
+        val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
+        fullLocationTv.text = fullLocation
+
         val defaultArray = byteArrayOf()
 
         val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
