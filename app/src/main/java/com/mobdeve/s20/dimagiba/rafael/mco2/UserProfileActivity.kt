@@ -63,6 +63,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var postAdapter: postAdapter
     private lateinit var ownPostAdapter: ownPostAdapter
     private lateinit var joinedPostAdapter: joinedPostAdapter
+    private lateinit var foundPostAdapter: foundPostAdapter
 
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
@@ -164,8 +165,8 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             select(userFoundPostsBtn)
             postsDropdown.visibility = View.INVISIBLE
-            this.postAdapter = postAdapter(found_data, this)
-            this.recyclerView.adapter = postAdapter
+            this.foundPostAdapter = foundPostAdapter(found_data, this)
+            this.recyclerView.adapter = foundPostAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
         }
         postsDropdown.setOnClickListener {

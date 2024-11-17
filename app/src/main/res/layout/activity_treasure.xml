@@ -302,8 +302,9 @@
                         android:id="@+id/treasureLeave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/cool_grey"
                         android:fontFamily="@font/readex_pro"
-                        android:text="Cancel"
+                        android:text="Back"
                         android:textStyle="bold" />
 
                     <Button

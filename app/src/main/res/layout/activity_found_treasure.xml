@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OwnTreasureActivity">
+    tools:context=".FoundTreasureActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -292,7 +292,7 @@
                         android:layout_marginRight="5dp"
                         android:fontFamily="@font/readex_pro"
                         android:gravity="center"
-                        android:text="Not yet verified"
+                        android:text="Treasure Found!"
                         android:textColor="@color/gray"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -302,9 +302,32 @@
 
                     <ImageView
                         android:id="@+id/treasureVerifiedIcon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="2dp"
+                        android:tint="@color/gray"
+                        app:srcCompat="@drawable/ic_treasure" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/treasureFoundDateHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@android:drawable/checkbox_off_background" />
+                        android:layout_marginRight="10dp"
+                        android:text="Collected On:" />
+
+                    <TextView
+                        android:id="@+id/treasureFoundDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="January 1 , 2001" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -321,19 +344,6 @@
                         android:fontFamily="@font/readex_pro"
                         android:text="Back"
                         android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/treasureVerify"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/readex_pro"
-                        android:text="Verify"
-                        android:textStyle="bold"
-                        app:icon="@drawable/ic_qrcode"
-                        app:iconGravity="end"
-                        app:iconSize="15dp" />
 
                 </LinearLayout>
             </LinearLayout>

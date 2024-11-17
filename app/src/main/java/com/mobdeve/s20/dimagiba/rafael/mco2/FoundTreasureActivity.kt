@@ -12,47 +12,46 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class OwnTreasureActivity : AppCompatActivity() {
-
+class FoundTreasureActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_pending_post)
+        setContentView(R.layout.activity_found_treasure)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val username = intent.getStringExtra("username_own")
+        val username = intent.getStringExtra("username_found")
         val usernameTv = findViewById<TextView>(R.id.treasureUsername)
         usernameTv.text = username
 
-        val description = intent.getStringExtra("description_own")
+        val description = intent.getStringExtra("description_found")
         val descriptionTv = findViewById<TextView>(R.id.treasureDescription)
         descriptionTv.text = description
 
-        val pirates = intent.getStringExtra("pirates_own")
+        val pirates = intent.getStringExtra("pirates_found")
         val piratesTv = findViewById<TextView>(R.id.pirateCount)
         piratesTv.text = pirates
 
-        val plundered = intent.getStringExtra("plundered_own")
+        val plundered = intent.getStringExtra("plundered_found")
         val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
         plunderedTv.text = plundered
 
-        val fullDate = intent.getStringExtra("fullDate_own")
+        val fullDate = intent.getStringExtra("fullDate_found")
         val fullDateTv = findViewById<TextView>(R.id.startDate)
         fullDateTv.text = fullDate
 
-        val fullLocation = intent.getStringExtra("fullLocation_own")
+        val fullLocation = intent.getStringExtra("fullLocation_found")
         val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
         fullLocationTv.text = fullLocation
 
         val defaultArray = byteArrayOf()
 
         val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
-        val byteArray = intent.getByteArrayExtra("pfp_own") ?: defaultArray
+        val byteArray = intent.getByteArrayExtra("pfp_found") ?: defaultArray
 
         if (byteArray.isNotEmpty()){
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
@@ -61,7 +60,7 @@ class OwnTreasureActivity : AppCompatActivity() {
 
 
         val postPicIV = findViewById<ImageView>(R.id.postImageIv)
-        val postByteArray = intent.getByteArrayExtra("postImage_own") ?: defaultArray
+        val postByteArray = intent.getByteArrayExtra("postImage_found") ?: defaultArray
 
 
         if (postByteArray.isNotEmpty()){
@@ -74,16 +73,6 @@ class OwnTreasureActivity : AppCompatActivity() {
 
         cancelButton.setOnClickListener {
             finish()
-        }
-
-        val joinButton = findViewById<Button>(R.id.treasureVerify)
-
-        joinButton.setOnClickListener {
-            val intent = Intent(this, QRScannerActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(this, "Logic not yet implemented", Toast.LENGTH_SHORT).show()
-//            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
-//            finish()
         }
 
     }

@@ -27,17 +27,28 @@ class joinedPostAdapter (private val data: ArrayList<TreasureHunt>, private val 
         myViewHolder.itemView.setOnClickListener {
             val intent : Intent = Intent(myViewHolder.itemView.context, JoinedTreasureActivity::class.java)
 
-            intent.putExtra("username1", viewBinding.usernameTv.text.toString())
-            intent.putExtra("description1", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("username_joined", viewBinding.usernameTv.text.toString())
+            intent.putExtra("description_joined", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("pirates_joined", viewBinding.participantsTv.text.toString())
+            intent.putExtra("plundered_joined", viewBinding.winnersTv.text.toString())
             val drawable = viewBinding.userImageIv.drawable as BitmapDrawable
             val bitmap = drawable.bitmap
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
-            intent.putExtra("pfp1", byteArray)
-//            val postImageId = viewBinding.userImageIv.tag as? Int
-//            intent.putExtra(TreasureActivity.PFP_KEY, imageId)
-//            intent.putExtra(TreasureActivity.DATE_KEY, viewBinding.dateTv.text.toString())
+            intent.putExtra("pfp_joined", byteArray)
+
+            if (viewBinding.treasureImageIv.drawable != null ) {
+                val postImage_drawable = viewBinding.treasureImageIv.drawable as BitmapDrawable
+                val postImage_bitmap = postImage_drawable.bitmap
+                val postImage_stream = ByteArrayOutputStream()
+                postImage_bitmap.compress(Bitmap.CompressFormat.PNG, 100, postImage_stream)
+                val postImage_byteArray = postImage_stream.toByteArray()
+                intent.putExtra("postImage_joined", postImage_byteArray)
+            }
+
+            intent.putExtra("fullDate_joined", viewBinding.fullDateTv.text.toString())
+            intent.putExtra("fullLocation_joined", viewBinding.fullLocationTv.text.toString())
 
             context.startActivity(intent)
         }

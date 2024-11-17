@@ -25,19 +25,50 @@ class JoinedTreasureActivity : AppCompatActivity() {
             insets
         }
 
-        val username = intent.getStringExtra("username1")
+        val username = intent.getStringExtra("username_joined")
         val usernameTv = findViewById<TextView>(R.id.treasureUsername)
         usernameTv.text = username
 
-        val description = intent.getStringExtra("description1")
+        val description = intent.getStringExtra("description_joined")
         val descriptionTv = findViewById<TextView>(R.id.treasureDescription)
         descriptionTv.text = description
 
-        val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
-        val byteArray = intent.getByteArrayExtra("pfp1")
+        val pirates = intent.getStringExtra("pirates_joined")
+        val piratesTv = findViewById<TextView>(R.id.pirateCount)
+        piratesTv.text = pirates
 
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)
-        profilePicIV.setImageBitmap(bitmap)
+        val plundered = intent.getStringExtra("plundered_joined")
+        val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
+        plunderedTv.text = plundered
+
+        val fullDate = intent.getStringExtra("fullDate_joined")
+        val fullDateTv = findViewById<TextView>(R.id.startDate)
+        fullDateTv.text = fullDate
+
+        val fullLocation = intent.getStringExtra("fullLocation_joined")
+        val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
+        fullLocationTv.text = fullLocation
+
+        val defaultArray = byteArrayOf()
+
+        val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
+        val byteArray = intent.getByteArrayExtra("pfp_joined") ?: defaultArray
+
+        if (byteArray.isNotEmpty()){
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+            profilePicIV.setImageBitmap(bitmap)
+        }
+
+
+        val postPicIV = findViewById<ImageView>(R.id.postImageIv)
+        val postByteArray = intent.getByteArrayExtra("postImage_joined") ?: defaultArray
+
+
+        if (postByteArray.isNotEmpty()){
+
+            val postBitmap = BitmapFactory.decodeByteArray(postByteArray, 0, postByteArray.size)
+            postPicIV.setImageBitmap(postBitmap)
+        }
 
         val cancelButton = findViewById<Button>(R.id.treasureLeave)
 

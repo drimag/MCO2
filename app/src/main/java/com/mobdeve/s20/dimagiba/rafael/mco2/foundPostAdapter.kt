@@ -8,11 +8,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.mobdeve.s20.dimagiba.rafael.mco2.databinding.ActivityPendingPostBinding
 import com.mobdeve.s20.dimagiba.rafael.mco2.databinding.TreasurePostLayoutBinding
 import java.io.ByteArrayOutputStream
 
-class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val context: Context) : Adapter<postViewHolder>() {
+class foundPostAdapter (private val data: ArrayList<TreasureHunt>, private val context: Context) : Adapter<postViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): postViewHolder {
         // Initialize the ViewBinding of an item's layout
@@ -25,18 +24,18 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
         // Provide logic for clicking on anywhere on the entire itemView of the ViewHolder
         // TODO:: i think this is where we put the post details
         myViewHolder.itemView.setOnClickListener {
-            val intent : Intent = Intent(myViewHolder.itemView.context, OwnTreasureActivity::class.java)
+            val intent : Intent = Intent(myViewHolder.itemView.context, FoundTreasureActivity::class.java)
 
-            intent.putExtra("username_own", viewBinding.usernameTv.text.toString())
-            intent.putExtra("description_own", viewBinding.descriptionTv.text.toString())
-            intent.putExtra("pirates_own", viewBinding.participantsTv.text.toString())
-            intent.putExtra("plundered_own", viewBinding.winnersTv.text.toString())
+            intent.putExtra("username_found", viewBinding.usernameTv.text.toString())
+            intent.putExtra("description_found", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("pirates_found", viewBinding.participantsTv.text.toString())
+            intent.putExtra("plundered_found", viewBinding.winnersTv.text.toString())
             val drawable = viewBinding.userImageIv.drawable as BitmapDrawable
             val bitmap = drawable.bitmap
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
-            intent.putExtra("pfp_own", byteArray)
+            intent.putExtra("pfp_found", byteArray)
 
             if (viewBinding.treasureImageIv.drawable != null ) {
                 val postImage_drawable = viewBinding.treasureImageIv.drawable as BitmapDrawable
@@ -44,11 +43,11 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
                 val postImage_stream = ByteArrayOutputStream()
                 postImage_bitmap.compress(Bitmap.CompressFormat.PNG, 100, postImage_stream)
                 val postImage_byteArray = postImage_stream.toByteArray()
-                intent.putExtra("postImage_own", postImage_byteArray)
+                intent.putExtra("postImage_found", postImage_byteArray)
             }
 
-            intent.putExtra("fullDate_own", viewBinding.fullDateTv.text.toString())
-            intent.putExtra("fullLocation_own", viewBinding.fullLocationTv.text.toString())
+            intent.putExtra("fullDate_found", viewBinding.fullDateTv.text.toString())
+            intent.putExtra("fullLocation_found", viewBinding.fullLocationTv.text.toString())
 
             context.startActivity(intent)
         }
