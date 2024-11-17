@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -37,6 +38,10 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
             intent.putExtra("pfp_own", byteArray)
+
+            if (viewBinding.needsVerificationIcon.visibility == View.VISIBLE){
+                intent.putExtra("needs_verification", true)
+            }
 
             if (viewBinding.treasureImageIv.drawable != null ) {
                 val postImage_drawable = viewBinding.treasureImageIv.drawable as BitmapDrawable

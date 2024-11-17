@@ -38,14 +38,14 @@ class UserProfileActivity : AppCompatActivity() {
         val user2 = User("kuromi", R.drawable.kuromi)
         val user3 = User("luffy", R.drawable.luffy)
 
-        val post1 = TreasureHunt("find my treasure guys heheheheh", user1, CustomDate(2020, 10, 9), Location("Taguig"))
+        val post1 = TreasureHunt("find my treasure guys heheheheh", user1, CustomDate(2020, 10, 9), Location("Taguig"), isVerified = false)
         val post2 = TreasureHunt("wala magawa hehehe", user1, CustomDate(2020, 10, 4), Location("Taguig"))
         val post3 = TreasureHunt("first time in Pateros", user1, CustomDate(2020, 6, 15), Location("Pateros"))
 
         val post4 = TreasureHunt("DI NYO TO MAHAHANAP LEGIT", user2, CustomDate(2020, 10, 9), Location("Makati"))
         val post5 = TreasureHunt("sali n kau guys <3", user3, CustomDate(2020, 9, 2), Location("Makati"))
 
-        val post6 = TreasureHunt("pahanap ng one piece :P", user3, CustomDate(2020, 4, 1), Location("Manila"))
+        val post6 = TreasureHunt("pahanap ng one piece :P", user3, CustomDate(2020, 4, 1), Location("Manila"), foundDate = CustomDate(2024, 10, 10))
         init {
             // Add all posts to the data list
             own_data.add(post1)

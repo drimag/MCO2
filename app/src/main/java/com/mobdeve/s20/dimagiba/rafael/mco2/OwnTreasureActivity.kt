@@ -3,8 +3,10 @@ package com.mobdeve.s20.dimagiba.rafael.mco2
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -48,6 +50,18 @@ class OwnTreasureActivity : AppCompatActivity() {
         val fullLocation = intent.getStringExtra("fullLocation_own")
         val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
         fullLocationTv.text = fullLocation
+
+        val needsVerification = intent.getBooleanExtra("needs_verification", false)
+        val needsVerificationHeader = findViewById<LinearLayout>(R.id.notVerifiedHeader)
+        val verifyButton = findViewById<Button>(R.id.treasureVerify)
+
+        if (needsVerification) {
+            needsVerificationHeader.visibility = View.VISIBLE
+            verifyButton.visibility = View.VISIBLE
+        } else {
+            needsVerificationHeader.visibility = View.GONE
+            verifyButton.visibility = View.GONE
+        }
 
         val defaultArray = byteArrayOf()
 

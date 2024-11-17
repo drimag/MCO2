@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -17,11 +18,17 @@ class postViewHolder (private val viewBinding: TreasurePostLayoutBinding): Recyc
                 .circleCrop()
                 .into(this.viewBinding.userImageIv)
         }
+        if (post.isVerified == true) {
+            this.viewBinding.needsVerificationIcon.visibility = View.GONE
+        } else {
+            this.viewBinding.needsVerificationIcon.visibility = View.VISIBLE
+        }
 
         post.imageId?.let { this.viewBinding.treasureImageIv.setImageResource(it) }
         this.viewBinding.locationDateTv.text = "${post.location.getCity()} · ${post.date.toStringNoYear()}"
         this.viewBinding.fullLocationTv.text = "${post.location.getFullLocation()}"
         this.viewBinding.fullDateTv.text = "${post.date.toStringFull()}"
+        this.viewBinding.foundDateTv.text = "${post.foundDate?.toStringFull()}"
         this.viewBinding.descriptionTv.text = post.description
         this.viewBinding.participantsTv.text = "${post.participants.size}"
         this.viewBinding.winnersTv.text = "${post.winners.size}"

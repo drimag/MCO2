@@ -5,7 +5,10 @@ class TreasureHunt(
     var poster: User,
     var date: CustomDate,
     var location: Location,
-    var imageId: Int? = null
+    var imageId: Int? = null,
+    var isFound: Boolean? = false,
+    var isVerified: Boolean? = true,
+    var foundDate: CustomDate? = null
 ) {
 
     var participants: MutableList<User> = mutableListOf()

@@ -48,6 +48,10 @@ class FoundTreasureActivity : AppCompatActivity() {
         val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
         fullLocationTv.text = fullLocation
 
+        val foundDate = intent.getStringExtra("foundDate_found")
+        val foundDateTv = findViewById<TextView>(R.id.treasureFoundDate)
+        foundDateTv.text = foundDate
+
         val defaultArray = byteArrayOf()
 
         val profilePicIV = findViewById<ImageView>(R.id.treasureImage)

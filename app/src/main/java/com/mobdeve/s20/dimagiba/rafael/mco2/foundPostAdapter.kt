@@ -48,6 +48,7 @@ class foundPostAdapter (private val data: ArrayList<TreasureHunt>, private val c
 
             intent.putExtra("fullDate_found", viewBinding.fullDateTv.text.toString())
             intent.putExtra("fullLocation_found", viewBinding.fullLocationTv.text.toString())
+            intent.putExtra("foundDate_found", viewBinding.foundDateTv.text.toString())
 
             context.startActivity(intent)
         }
