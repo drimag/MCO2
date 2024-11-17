@@ -11,12 +11,11 @@
     <FrameLayout
         android:id="@+id/user_profile_banner_fl"
         android:layout_width="0dp"
-        android:layout_height="230dp"
-        android:background="@color/gold"
+        android:layout_height="210dp"
+        android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
     <ImageButton
         android:id="@+id/user_profile_back_bt"
         android:layout_width="25dp"
@@ -39,35 +38,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logout" />
-    <ImageView
-        android:id="@+id/user_profile_pic_iv"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="@id/user_profile_banner_fl"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/chopper" />
+
     <LinearLayout
-        android:id="@+id/user_profile_details_ll"
-        android:layout_width="wrap_content"
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/user_profile_pic_iv"
-        app:layout_constraintStart_toEndOf="@+id/user_profile_pic_iv"
-        app:layout_constraintTop_toTopOf="@+id/user_profile_pic_iv">
-        <TextView
-            android:id="@+id/user_profile_username_tv"
-            android:layout_width="match_parent"
+        android:background="@color/black"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/user_profile_banner_fl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/user_profile_pic_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/chopper" />
+
+        <LinearLayout
+            android:id="@+id/user_profile_details_ll"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/readex_pro"
-            android:text="chopper"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_profile_username_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/readex_pro"
+                android:text="chopper"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/user_profile_posts_ll"
         android:layout_width="match_parent"
@@ -77,18 +86,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_banner_fl"
         app:layout_constraintVertical_bias="0.0">
+
         <LinearLayout
             android:id="@+id/user_profile_filters_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="10dp"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/user_profile_user_posts_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/light_gold"
+                android:backgroundTint="@color/gold"
                 android:backgroundTintMode="src_atop"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
@@ -98,12 +110,13 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:cornerRadius="0dp" />
+
             <FrameLayout
                 android:id="@+id/divider_1_fl"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/light_gold">
-            </FrameLayout>
+                android:background="@color/black"></FrameLayout>
+
             <Button
                 android:id="@+id/user_profile_joined_posts_bt"
                 android:layout_width="wrap_content"
@@ -115,16 +128,17 @@
                 android:insetBottom="0dp"
                 android:text="Joined"
                 android:textAllCaps="false"
-                android:textColor="@color/light_gold"
+                android:textColor="@color/cool_grey"
                 android:textStyle="bold"
                 app:cornerRadius="0dp"
                 app:strokeWidth="0dp" />
+
             <FrameLayout
                 android:id="@+id/divider_2_fl"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/light_gold">
-            </FrameLayout>
+                android:background="@color/black"></FrameLayout>
+
             <Button
                 android:id="@+id/user_profile_found_posts_bt"
                 android:layout_width="wrap_content"
@@ -135,21 +149,27 @@
                 android:insetBottom="0dp"
                 android:text="Found"
                 android:textAllCaps="false"
-                android:textColor="@color/light_gold"
+                android:textColor="@color/cool_grey"
                 android:textStyle="bold"
                 app:cornerRadius="0dp"
                 app:strokeColor="#AD2020" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
             android:id="@+id/user_profile_post_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/gray"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/user_profile_filters_ll"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/light_gold">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_profile_filters_ll">
 
             <ImageView
                 android:id="@+id/filter_icon_iv"
@@ -157,25 +177,24 @@
                 android:layout_height="14dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
-                android:src="@drawable/ic_down"
-                android:contentDescription="Filter Icon"/>
+                android:contentDescription="Filter Icon"
+                android:src="@drawable/ic_down" />
 
             <TextView
                 android:id="@+id/filter_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
                 android:text="All Posts"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                android:gravity="center_vertical"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="16dp"
             android:id="@+id/user_profile_posts_rv"
-            android:layout_marginLeft="8dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

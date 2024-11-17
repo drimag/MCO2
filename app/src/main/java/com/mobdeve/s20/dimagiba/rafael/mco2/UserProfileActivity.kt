@@ -192,11 +192,11 @@ class UserProfileActivity : AppCompatActivity() {
 
     fun select(button: Button) {
         button.setTextColor(ContextCompat.getColor(this, R.color.white))
-        button.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gold))
+        button.setBackgroundColor(ContextCompat.getColor(this, R.color.gold))
     }
 
     fun deselect(button: Button) {
-        button.setTextColor(ContextCompat.getColor(this, R.color.light_gold))
+        button.setTextColor(ContextCompat.getColor(this, R.color.cool_grey))
         button.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
     }
 }
