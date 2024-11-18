@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 
 class OwnTreasureActivity : AppCompatActivity() {
 
@@ -63,26 +64,19 @@ class OwnTreasureActivity : AppCompatActivity() {
             verifyButton.visibility = View.GONE
         }
 
-        val defaultArray = byteArrayOf()
+        val pfp = intent.getIntExtra("pfp_own", 0)
+        val pfpTv = findViewById<ImageView>(R.id.treasureImage)
 
-        val profilePicIV = findViewById<ImageView>(R.id.treasureImage)
-        val byteArray = intent.getByteArrayExtra("pfp_own") ?: defaultArray
-
-        if (byteArray.isNotEmpty()){
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            profilePicIV.setImageBitmap(bitmap)
+        pfp.let {
+            Glide.with(pfpTv)
+                .load(it)
+                .circleCrop()
+                .into(pfpTv)
         }
 
-
-        val postPicIV = findViewById<ImageView>(R.id.postImageIv)
-        val postByteArray = intent.getByteArrayExtra("postImage_own") ?: defaultArray
-
-
-        if (postByteArray.isNotEmpty()){
-
-            val postBitmap = BitmapFactory.decodeByteArray(postByteArray, 0, postByteArray.size)
-            postPicIV.setImageBitmap(postBitmap)
-        }
+        val postImage = intent.getIntExtra("postImage_own", 0)
+        val postImageTv = findViewById<ImageView>(R.id.postImageIv)
+        postImageTv.setImageResource(postImage)
 
         val cancelButton = findViewById<Button>(R.id.treasureLeave)
 

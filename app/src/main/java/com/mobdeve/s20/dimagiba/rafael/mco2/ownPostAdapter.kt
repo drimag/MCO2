@@ -32,26 +32,8 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
             intent.putExtra("description_own", viewBinding.descriptionTv.text.toString())
             intent.putExtra("pirates_own", viewBinding.participantsTv.text.toString())
             intent.putExtra("plundered_own", viewBinding.winnersTv.text.toString())
-            val drawable = viewBinding.userImageIv.drawable as BitmapDrawable
-            val bitmap = drawable.bitmap
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray = stream.toByteArray()
-            intent.putExtra("pfp_own", byteArray)
-
-            if (viewBinding.needsVerificationIcon.visibility == View.VISIBLE){
-                intent.putExtra("needs_verification", true)
-            }
-
-            if (viewBinding.treasureImageIv.drawable != null ) {
-                val postImage_drawable = viewBinding.treasureImageIv.drawable as BitmapDrawable
-                val postImage_bitmap = postImage_drawable.bitmap
-                val postImage_stream = ByteArrayOutputStream()
-                postImage_bitmap.compress(Bitmap.CompressFormat.PNG, 100, postImage_stream)
-                val postImage_byteArray = postImage_stream.toByteArray()
-                intent.putExtra("postImage_own", postImage_byteArray)
-            }
-
+            intent.putExtra("pfp_own", viewBinding.userImageIv.tag as? Int)
+            intent.putExtra("postImage_own", viewBinding.treasureImageIv.tag as? Int)
             intent.putExtra("fullDate_own", viewBinding.fullDateTv.text.toString())
             intent.putExtra("fullLocation_own", viewBinding.fullLocationTv.text.toString())
 

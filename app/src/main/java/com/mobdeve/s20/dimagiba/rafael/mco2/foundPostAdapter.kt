@@ -30,22 +30,8 @@ class foundPostAdapter (private val data: ArrayList<TreasureHunt>, private val c
             intent.putExtra("description_found", viewBinding.descriptionTv.text.toString())
             intent.putExtra("pirates_found", viewBinding.participantsTv.text.toString())
             intent.putExtra("plundered_found", viewBinding.winnersTv.text.toString())
-            val drawable = viewBinding.userImageIv.drawable as BitmapDrawable
-            val bitmap = drawable.bitmap
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray = stream.toByteArray()
-            intent.putExtra("pfp_found", byteArray)
-
-            if (viewBinding.treasureImageIv.drawable != null ) {
-                val postImage_drawable = viewBinding.treasureImageIv.drawable as BitmapDrawable
-                val postImage_bitmap = postImage_drawable.bitmap
-                val postImage_stream = ByteArrayOutputStream()
-                postImage_bitmap.compress(Bitmap.CompressFormat.PNG, 100, postImage_stream)
-                val postImage_byteArray = postImage_stream.toByteArray()
-                intent.putExtra("postImage_found", postImage_byteArray)
-            }
-
+            intent.putExtra("pfp_found", viewBinding.userImageIv.tag as? Int)
+            intent.putExtra("postImage_found", viewBinding.treasureImageIv.tag as? Int)
             intent.putExtra("fullDate_found", viewBinding.fullDateTv.text.toString())
             intent.putExtra("fullLocation_found", viewBinding.fullLocationTv.text.toString())
             intent.putExtra("foundDate_found", viewBinding.foundDateTv.text.toString())

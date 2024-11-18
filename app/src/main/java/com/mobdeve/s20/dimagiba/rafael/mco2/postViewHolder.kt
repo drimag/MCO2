@@ -18,6 +18,9 @@ class postViewHolder (private val viewBinding: TreasurePostLayoutBinding): Recyc
                 .circleCrop()
                 .into(this.viewBinding.userImageIv)
         }
+
+        this.viewBinding.userImageIv.tag = post.poster.profileImageId
+
         if (post.isVerified == true) {
             this.viewBinding.needsVerificationIcon.visibility = View.GONE
         } else {
@@ -25,6 +28,7 @@ class postViewHolder (private val viewBinding: TreasurePostLayoutBinding): Recyc
         }
 
         post.imageId?.let { this.viewBinding.treasureImageIv.setImageResource(it) }
+        this.viewBinding.treasureImageIv.tag = post.imageId
         this.viewBinding.locationDateTv.text = "${post.location.getCity()} · ${post.date.toStringNoYear()}"
         this.viewBinding.fullLocationTv.text = "${post.location.getFullLocation()}"
         this.viewBinding.fullDateTv.text = "${post.date.toStringFull()}"
