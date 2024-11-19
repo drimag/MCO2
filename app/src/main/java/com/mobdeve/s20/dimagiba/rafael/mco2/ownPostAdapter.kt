@@ -28,6 +28,10 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
         myViewHolder.itemView.setOnClickListener {
             val intent : Intent = Intent(myViewHolder.itemView.context, OwnTreasureActivity::class.java)
 
+            if (viewBinding.needsVerificationIcon.visibility == View.VISIBLE) {
+                intent.putExtra("needs_verification", true)
+            }
+
             intent.putExtra("username_own", viewBinding.usernameTv.text.toString())
             intent.putExtra("description_own", viewBinding.descriptionTv.text.toString())
             intent.putExtra("pirates_own", viewBinding.participantsTv.text.toString())
