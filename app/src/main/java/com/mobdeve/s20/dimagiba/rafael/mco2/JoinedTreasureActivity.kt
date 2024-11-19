@@ -1,7 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView

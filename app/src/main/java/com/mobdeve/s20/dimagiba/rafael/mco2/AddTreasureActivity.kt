@@ -10,12 +10,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 
 class AddTreasureActivity : AppCompatActivity() {
 
     private lateinit var cancelBtn: Button
     private lateinit var postBtn : Button
     private lateinit var treasureEt : EditText
+    private lateinit var userPFP : ImageView
 
     companion object {
         const val TREASURE_CONTENT_KEY = "TREASURE_CONTENT"
@@ -28,7 +30,16 @@ class AddTreasureActivity : AppCompatActivity() {
         this.cancelBtn = findViewById<Button>(R.id.cancelBtn)
         this.postBtn = findViewById<Button>(R.id.postBtn)
         this.treasureEt = findViewById<EditText>(R.id.treasureET)
+        this.userPFP = findViewById<ImageView>(R.id.addTreasureUserImageIV)
 
+        val pfp = intent.getIntExtra("userPFP", 0)
+
+        pfp.let {
+            Glide.with(userPFP)
+                .load(it)
+                .circleCrop()
+                .into(userPFP)
+        }
 
         this.cancelBtn.setOnClickListener(View.OnClickListener {
             finish()

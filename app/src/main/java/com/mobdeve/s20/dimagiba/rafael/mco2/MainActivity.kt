@@ -156,6 +156,7 @@ class MainActivity : AppCompatActivity() {
         // new treasure listener
         viewBinding.fab.setOnClickListener {
             val intent : Intent = Intent(this@MainActivity, AddTreasureActivity::class.java)
+            intent.putExtra("userPFP", R.drawable.chopper)
             this.newTreasureResultLauncher.launch(intent)
         }
 
