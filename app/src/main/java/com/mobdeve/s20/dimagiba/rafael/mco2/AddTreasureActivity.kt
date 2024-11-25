@@ -11,6 +11,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import android.graphics.Bitmap
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.journeyapps.barcodescanner.BarcodeEncoder
+
+
 
 class AddTreasureActivity : AppCompatActivity() {
 
@@ -18,6 +24,8 @@ class AddTreasureActivity : AppCompatActivity() {
     private lateinit var postBtn : Button
     private lateinit var treasureEt : EditText
     private lateinit var userPFP : ImageView
+    private lateinit var generateQR: Button
+    private lateinit var QRCode: ImageView
 
     companion object {
         const val TREASURE_CONTENT_KEY = "TREASURE_CONTENT"
@@ -31,6 +39,9 @@ class AddTreasureActivity : AppCompatActivity() {
         this.postBtn = findViewById<Button>(R.id.postBtn)
         this.treasureEt = findViewById<EditText>(R.id.treasureET)
         this.userPFP = findViewById<ImageView>(R.id.addTreasureUserImageIV)
+        this.generateQR = findViewById<Button>(R.id.button2)
+        this.QRCode = findViewById<ImageView>(R.id.QRCode)
+
 
         val pfp = intent.getIntExtra("userPFP", 0)
 
@@ -60,5 +71,29 @@ class AddTreasureActivity : AppCompatActivity() {
                 ).show()
             }
         })
+
+        this.generateQR.setOnClickListener(View.OnClickListener {
+
+            val qrContent = "https://example.com"
+            //change QR code to link to treasure
+
+            val qrBitmap = generateQRCode(qrContent)
+            qrBitmap?.let {
+                this.QRCode.setImageBitmap(it)
+            }
+
+        })
+
+
+    }
+
+    fun generateQRCode(content: String): Bitmap? {
+        return try {
+            val barcodeEncoder = BarcodeEncoder()
+            barcodeEncoder.encodeBitmap(content, BarcodeFormat.QR_CODE, 400, 400)
+        } catch (e: WriterException) {
+            e.printStackTrace()
+            null
+        }
     }
 }

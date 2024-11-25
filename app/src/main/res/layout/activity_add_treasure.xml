@@ -109,7 +109,7 @@
                         android:layout_height="20dp"
                         android:layout_weight="1"
                         android:tint="@color/white"
-                        app:srcCompat="@drawable/ic_current_location" />
+                        app:srcCompat="@drawable/ic_location" />
 
                 </LinearLayout>
 
@@ -133,7 +133,7 @@
                         android:id="@+id/imageView4"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        app:srcCompat="@drawable/ic_upload_image" />
+                        app:srcCompat="@drawable/ic_plus" />
                 </LinearLayout>
 
             </LinearLayout>
