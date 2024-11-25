@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "764090318464",
+    "project_id": "treasure-hunters-2c763",
+    "storage_bucket": "treasure-hunters-2c763.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764090318464:android:8f01fc875cac7a989fb065",
+        "android_client_info": {
+          "package_name": "com.mobdeve.s20.dimagiba.rafael.mco2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoJwMNIZw9KRkW57nKn58Pxx0JTq0kNM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
