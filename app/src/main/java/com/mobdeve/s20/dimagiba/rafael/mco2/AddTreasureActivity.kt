@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import android.graphics.Bitmap
+import android.widget.LinearLayout
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
@@ -26,6 +27,8 @@ class AddTreasureActivity : AppCompatActivity() {
     private lateinit var userPFP : ImageView
     private lateinit var generateQR: Button
     private lateinit var QRCode: ImageView
+    private lateinit var setTreas: ImageView
+    private lateinit var treasureLocationBtn: LinearLayout
 
     companion object {
         const val TREASURE_CONTENT_KEY = "TREASURE_CONTENT"
@@ -41,6 +44,7 @@ class AddTreasureActivity : AppCompatActivity() {
         this.userPFP = findViewById<ImageView>(R.id.addTreasureUserImageIV)
         this.generateQR = findViewById<Button>(R.id.button2)
         this.QRCode = findViewById<ImageView>(R.id.QRCode)
+        this.treasureLocationBtn = findViewById<LinearLayout>(R.id.treasure_location_ll)
 
 
         val pfp = intent.getIntExtra("userPFP", 0)
@@ -84,6 +88,10 @@ class AddTreasureActivity : AppCompatActivity() {
 
         })
 
+        this.treasureLocationBtn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        })
 
     }
 
