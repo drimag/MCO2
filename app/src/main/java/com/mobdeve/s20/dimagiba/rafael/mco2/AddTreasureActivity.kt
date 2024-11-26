@@ -15,10 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import android.graphics.Bitmap
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.Firebase
@@ -36,9 +40,18 @@ class AddTreasureActivity : AppCompatActivity() {
     private lateinit var generateQR: Button
     private lateinit var QRCode: ImageView
     private lateinit var setTreas: ImageView
+    private lateinit var treasureLocation: TextView
     private lateinit var treasureLocationBtn: LinearLayout
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var analytics: FirebaseAnalytics
+
+    private val setLocationLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            val newLocation = result.data?.getStringExtra(MapActivity.NEW_LOCATION) ?: "LocationError"
+            treasureLocation.text = newLocation
+        }
+    }
 
     companion object {
         const val TREASURE_CONTENT_KEY = "TREASURE_CONTENT"
@@ -59,6 +72,7 @@ class AddTreasureActivity : AppCompatActivity() {
         this.generateQR = findViewById<Button>(R.id.button2)
         this.QRCode = findViewById<ImageView>(R.id.QRCode)
         this.treasureLocationBtn = findViewById<LinearLayout>(R.id.treasure_location_ll)
+        this.treasureLocation = findViewById<TextView>(R.id.treasureLocation)
 
         generateQR.isEnabled = true
 
@@ -78,7 +92,7 @@ class AddTreasureActivity : AppCompatActivity() {
 
         this.treasureLocationBtn.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MapActivity::class.java)
-            startActivity(intent)
+            this.setLocationLauncher.launch(intent)
         })
 
         this.postBtn.setOnClickListener(View.OnClickListener { view ->

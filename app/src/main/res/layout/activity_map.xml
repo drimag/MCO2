@@ -6,10 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/cool_grey"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <org.osmdroid.views.MapView
         android:id="@+id/osmmap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </org.osmdroid.views.MapView>
+
+    <Button
+        android:id="@+id/confirmLocationBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Confirm Location"
+        app:layout_constraintEnd_toEndOf="@+id/currentLocationBtn"
+        app:layout_constraintStart_toStartOf="@+id/locationTv"
+        app:layout_constraintTop_toBottomOf="@+id/locationTv" />
+
+    <LinearLayout
+        android:id="@+id/currentLocationBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/layout_rounded"
+        android:backgroundTint="@color/gold"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/currentLocationIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_current_location" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/locationTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/layout_rounded"
+        android:backgroundTint="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="Location"
+        app:layout_constraintBottom_toBottomOf="@+id/currentLocationBtn"
+        app:layout_constraintEnd_toStartOf="@+id/currentLocationBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/currentLocationBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
