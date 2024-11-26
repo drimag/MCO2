@@ -20,6 +20,10 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 
 
 class AddTreasureActivity : AppCompatActivity() {
@@ -31,6 +35,7 @@ class AddTreasureActivity : AppCompatActivity() {
     private lateinit var generateQR: Button
     private lateinit var QRCode: ImageView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var analytics: FirebaseAnalytics
 
     companion object {
         const val TREASURE_CONTENT_KEY = "TREASURE_CONTENT"
@@ -40,6 +45,7 @@ class AddTreasureActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        analytics = Firebase.analytics
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_treasure)
 
@@ -49,6 +55,8 @@ class AddTreasureActivity : AppCompatActivity() {
         this.userPFP = findViewById<ImageView>(R.id.addTreasureUserImageIV)
         this.generateQR = findViewById<Button>(R.id.button2)
         this.QRCode = findViewById<ImageView>(R.id.QRCode)
+
+        generateQR.isEnabled = true
 
 
         val pfp = intent.getIntExtra("userPFP", 0)
@@ -91,6 +99,15 @@ class AddTreasureActivity : AppCompatActivity() {
             //}
 
             checkLocationPermissionAndGenerateQR()
+
+            //checking analytics if it connects
+
+            analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                param(FirebaseAnalytics.Param.ITEM_ID, "123");
+                param(FirebaseAnalytics.Param.ITEM_NAME, "test");
+                param(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+            }
+            generateQR.isEnabled = false
 
         })
 
