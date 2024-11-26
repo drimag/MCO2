@@ -1,8 +1,10 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -16,7 +18,13 @@ import android.widget.LinearLayout
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
-
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 
 
 class AddTreasureActivity : AppCompatActivity() {
@@ -29,12 +37,18 @@ class AddTreasureActivity : AppCompatActivity() {
     private lateinit var QRCode: ImageView
     private lateinit var setTreas: ImageView
     private lateinit var treasureLocationBtn: LinearLayout
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var analytics: FirebaseAnalytics
 
     companion object {
         const val TREASURE_CONTENT_KEY = "TREASURE_CONTENT"
+        const val LOCATION_REQUEST_CODE = 1001
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        analytics = Firebase.analytics
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_treasure)
 
@@ -45,6 +59,8 @@ class AddTreasureActivity : AppCompatActivity() {
         this.generateQR = findViewById<Button>(R.id.button2)
         this.QRCode = findViewById<ImageView>(R.id.QRCode)
         this.treasureLocationBtn = findViewById<LinearLayout>(R.id.treasure_location_ll)
+
+        generateQR.isEnabled = true
 
 
         val pfp = intent.getIntExtra("userPFP", 0)
@@ -58,6 +74,11 @@ class AddTreasureActivity : AppCompatActivity() {
 
         this.cancelBtn.setOnClickListener(View.OnClickListener {
             finish()
+        })
+
+        this.treasureLocationBtn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
         })
 
         this.postBtn.setOnClickListener(View.OnClickListener { view ->
@@ -78,24 +99,89 @@ class AddTreasureActivity : AppCompatActivity() {
 
         this.generateQR.setOnClickListener(View.OnClickListener {
 
-            val qrContent = "https://example.com"
+            //val qrContent = "https://example.com"
             //change QR code to link to treasure
 
-            val qrBitmap = generateQRCode(qrContent)
-            qrBitmap?.let {
-                this.QRCode.setImageBitmap(it)
+            //val qrBitmap = generateQRCode(qrContent)
+            //qrBitmap?.let {
+                //this.QRCode.setImageBitmap(it)
+            //}
+
+            checkLocationPermissionAndGenerateQR()
+
+            //checking analytics if it connects
+
+            analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                param(FirebaseAnalytics.Param.ITEM_ID, "123");
+                param(FirebaseAnalytics.Param.ITEM_NAME, "test");
+                param(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
             }
+            generateQR.isEnabled = false
 
         })
 
-        this.treasureLocationBtn.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, MapActivity::class.java)
-            startActivity(intent)
-        })
 
     }
+    private fun checkLocationPermissionAndGenerateQR() {
+        // Check for permission to access fine and coarse location
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request permissions if not granted
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_REQUEST_CODE
+            )
+        } else {
+            // Permissions granted, proceed to get the location
+            getLastLocation { location ->
+                location?.let {
+                    // Create QR code content with location info
+                    val qrContent = "Lat: ${it.latitude}, Lon: ${it.longitude}"
 
-    fun generateQRCode(content: String): Bitmap? {
+                    // Show Toast with location coordinates
+                    Toast.makeText(this@AddTreasureActivity, qrContent, Toast.LENGTH_LONG).show()
+
+                    // Generate QR code with location information
+                    val qrBitmap = generateQRCode(qrContent)
+                    qrBitmap?.let {
+                        // Display the generated QR code on ImageView
+                        QRCode.setImageBitmap(it)
+                    }
+                } ?: run {
+                    // Handle case when location is not available
+                    Toast.makeText(this, "Failed to fetch location", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation(callback: (android.location.Location?) -> Unit) {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    callback(location) // pass the location object to the callback
+                } else {
+                    callback(null)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error getting location: ${it.message}", Toast.LENGTH_SHORT).show()
+                callback(null)
+            }
+    }
+
+
+    private fun generateQRCode(content: String): Bitmap? {
         return try {
             val barcodeEncoder = BarcodeEncoder()
             barcodeEncoder.encodeBitmap(content, BarcodeFormat.QR_CODE, 400, 400)
@@ -104,4 +190,24 @@ class AddTreasureActivity : AppCompatActivity() {
             null
         }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed to get location
+                checkLocationPermissionAndGenerateQR()
+            } else {
+                // Permission denied, show a message to the user
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 }
