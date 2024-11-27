@@ -3,15 +3,24 @@ package com.mobdeve.s20.dimagiba.rafael.mco2
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import org.w3c.dom.Text
 
 class RegisterActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val db = FirebaseDatabase.getInstance().reference
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_register)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -20,6 +29,8 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
         val toLoginBtn = findViewById<Button>(R.id.to_login_bt)
+        val regUsername = findViewById<TextView>(R.id.register_username_et)
+        val regPassword = findViewById<TextView>(R.id.register_password_et)
 
         toLoginBtn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -29,9 +40,66 @@ class RegisterActivity : AppCompatActivity() {
         val registerBtn = findViewById<Button>(R.id.register_submit_bt)
 
         registerBtn.setOnClickListener {
+
+            //send query to firebase for this
+            val username = regUsername.text.toString()
+            val password = regPassword.text.toString()
+
+            registerUser(username, password) { success, message ->
+                if (success) {
+                    Toast.makeText(this, "User registered successfully!", Toast.LENGTH_SHORT).show()
+                    // Navigate to the next screen
+                } else {
+                    Toast.makeText(this, "Registration failed: $message", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
             Toast.makeText(this, "Welcome aboard, pirate!", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
+
+
+    private fun registerUser(userName: String, password: String, onComplete: (Boolean, String?) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        // Hash the password
+
+        // Generate a unique ID for the user
+        val userId = db.collection("Users").document().id
+
+        val user = User(
+            id = userId,
+            userName = userName,
+            password = password
+        )
+
+
+        // Check if the username already exists
+        db.collection("Users").whereEqualTo("userName", userName).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) {
+                    // Username is available, save the user
+                    db.collection("Users").document(userId).set(user)
+                        .addOnSuccessListener {
+                            onComplete(true, userId) // Notify success
+                        }
+                        .addOnFailureListener { exception ->
+                            exception.printStackTrace()
+                            onComplete(false, null) // Notify failure
+                        }
+                } else {
+                    // Username already exists
+                    onComplete(false, "Username already exists")
+                }
+            }
+            .addOnFailureListener { exception ->
+                exception.printStackTrace()
+                onComplete(false, null)
+            }
+    }
+
+
 }

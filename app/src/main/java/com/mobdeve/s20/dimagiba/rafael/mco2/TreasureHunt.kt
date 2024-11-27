@@ -17,7 +17,7 @@ class TreasureHunt(
         private set
 
     init {
-        poster.addPost(this)
+        poster.addPost(this.toString())
     }
 
     fun addWinner(winner: User) {
@@ -36,3 +36,37 @@ class TreasureHunt(
         participants.remove(participant)
     }
 }
+
+/*
+data class TreasureHunt(
+    var id: String = "",
+    var description: String = "",
+    var posterId: String = "",
+    var date: String = "", // ISO 8601 format for dates
+    var location: String = "", // e.g., "lat,lng" or structured object
+    var imageId: Int? = null,
+    var isFound: Boolean = false,
+    var isVerified: Boolean = true,
+    var foundDate: String? = null,
+    var participants: List<String> = listOf(), // List of user IDs
+    var winners: List<String> = listOf() // List of user IDs
+) {
+    // Firebase-compatible methods
+    fun addParticipant(participantId: String) {
+        participants = participants + participantId
+    }
+
+    fun removeParticipant(participantId: String) {
+        participants = participants - participantId
+    }
+
+    fun addWinner(winnerId: String) {
+        winners = winners + winnerId
+    }
+
+    fun removeWinner(winnerId: String) {
+        winners = winners - winnerId
+    }
+}
+
+ */

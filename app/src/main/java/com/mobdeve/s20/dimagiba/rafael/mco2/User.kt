@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+/*
 class User {
     var userName: String
         private set
@@ -24,6 +25,45 @@ class User {
 
     fun removePost(post: TreasureHunt){
         posts.remove(post)
+    }
+}
+
+ */
+
+
+data class User(
+    var id: String = "",
+    var password: String = "",
+    var userName: String = "",
+    var profileImageId: Int = 0,
+    var posts: List<String> = listOf(), // List of TreasureHunt IDs
+    var joinedHunts: List<String> = listOf(), // List of TreasureHunt IDs
+    var foundHunts: List<String> = listOf() // List of TreasureHunt IDs
+) {
+    // Firebase-compatible methods
+    fun addPost(postId: String) {
+        posts = posts + postId
+    }
+
+    fun removePost(postId: String) {
+        posts = posts - postId
+    }
+
+    fun joinHunt(huntId: String) {
+        joinedHunts = joinedHunts + huntId
+    }
+
+    fun leaveHunt(huntId: String) {
+        joinedHunts = joinedHunts - huntId
+    }
+
+    fun addFoundHunt(huntId: String) {
+        foundHunts = foundHunts + huntId
+    }
+
+    constructor(userName: String, profileImageId: Int) : this() {
+        this.userName = userName
+        this.profileImageId = profileImageId
     }
 }
 
