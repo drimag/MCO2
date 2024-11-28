@@ -42,6 +42,14 @@ class QRScannerActivity : AppCompatActivity() {
                 scanResult.text = "QR Code Scanned: ${result.contents}"
                 // Future logic to handle the treasure claim will go here
 
+
+                //get the information from the QR code, which should only include the ID of the treasure
+                //if the ID of the treasure matches that of the treasure
+                // add the userID to the winner list of the treasure, use the savedpreferences for that
+                // remove the user from the participants
+                // add the treasureID to the userID list of foundtreasure
+                // remove the treasureID from the users list of joinedtreasure
+
             }
         }
 }

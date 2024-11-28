@@ -15,6 +15,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobdeve.s20.dimagiba.rafael.mco2.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
@@ -128,6 +129,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //for getting all posts from Firestore
+        val db = FirebaseFirestore.getInstance()
+
+        val treasuresList = mutableListOf<TreasureHunt>()
+
+        /*
+        db.collection("Treasures").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                Toast.makeText(this, "Error fetching treasures: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+            treasuresList.clear()
+            if (snapshot != null) {
+                for (document in snapshot.documents) {
+                    val treasure = document.toObject(Treasure::class.java)?.copy(id = document.id)
+                    if (treasure != null) {
+                        treasuresList.add(treasure)
+                    }
+                }
+                treasuresAdapter.notifyDataSetChanged()
+            }
+        }
+
+         */
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
@@ -161,7 +189,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         this.recyclerView = viewBinding.recyclerView
-        this.postAdapter = postAdapter(filtered_data, this)
+
+        //change filtered_data to get all the posts from the database collection of Treasures
+        this.postAdapter = postAdapter(treasuresList, this)
         this.recyclerView.adapter = postAdapter
         this.recyclerView.layoutManager = LinearLayoutManager(this)
     }

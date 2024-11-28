@@ -1,6 +1,8 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class CustomDate {
     private var day_in_month: Int
@@ -35,6 +37,13 @@ class CustomDate {
     // if CustomDate has 2023, 11, 1: Dec 1
     fun toStringNoYear(): String {
         return monthString[month] + " " + day_in_month
+    }
+
+    fun toISO8601String(): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day_in_month)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     companion object {

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import android.graphics.Bitmap
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
@@ -29,6 +30,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
 import com.google.firebase.analytics.logEvent
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class AddTreasureActivity : AppCompatActivity() {
@@ -44,6 +46,7 @@ class AddTreasureActivity : AppCompatActivity() {
     private lateinit var treasureLocationBtn: LinearLayout
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var analytics: FirebaseAnalytics
+    private lateinit var treasureID: String
 
     private val setLocationLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -59,6 +62,8 @@ class AddTreasureActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val db = FirebaseFirestore.getInstance()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         analytics = Firebase.analytics
@@ -96,16 +101,44 @@ class AddTreasureActivity : AppCompatActivity() {
         })
 
         this.postBtn.setOnClickListener(View.OnClickListener { view ->
-            if (this.treasureEt.text.toString().isNotEmpty()){
+            if (this.treasureEt.text.toString().isNotEmpty() && this.treasureID.isNotEmpty()){
                 val intent : Intent = Intent()
                 intent.putExtra(AddTreasureActivity.TREASURE_CONTENT_KEY, this.treasureEt.text.toString())
+
+                val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+                val username = sharedPreferences.getString("username", null) // Retrieve username
+                val customDate = CustomDate()
+                val formattedDate = customDate.toISO8601String()
+                val treasureHunt = TreasureHunt(
+                    treasureID = treasureID,
+                    Tdescription = this.treasureEt.text.toString(),
+                    posterID = userId.toString(),
+                    Postername = username.toString(),
+                    Date = formattedDate,
+                    Location = "12.9716,77.5946" // Example lat, lng coordinates
+                )
+
+
+// Save the TreasureHunt object to Firestore
+                db.collection("Treasure").document(treasureHunt.id).set(treasureHunt)
+                    .addOnSuccessListener {
+                        // Successfully added the treasure hunt to Firestore
+                        Log.d("Firestore", "Treasure hunt added successfully!")
+                    }
+                    .addOnFailureListener { e ->
+                        // Handle failure
+                        Log.e("Firestore", "Error adding treasure hunt", e)
+                    }
+                //instantiate the class, get the customdate, location etc
+                //add it to the firebase
 
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             } else {
                 Toast.makeText(
                     this@AddTreasureActivity,
-                    "Please make your tweet has text",
+                    "Please make your tweet has text/Generate a QR code to print.",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -121,15 +154,26 @@ class AddTreasureActivity : AppCompatActivity() {
                 //this.QRCode.setImageBitmap(it)
             //}
 
-            checkLocationPermissionAndGenerateQR()
+            //STORE THE ID OF THE TREASURE IN THE QR CODE INSTEAD OF LOCATION SINCE PRINTING IT PALA
+            treasureID = db.collection("Treasure").document().id
+            val qrBitmap = generateQRCode(treasureID)
+            qrBitmap?.let {
+                // Display the generated QR code on ImageView
+                QRCode.setImageBitmap(it)
+            }
+
+
+            //checkLocationPermissionAndGenerateQR()
 
             //checking analytics if it connects
-
+/*
             analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
                 param(FirebaseAnalytics.Param.ITEM_ID, "123");
                 param(FirebaseAnalytics.Param.ITEM_NAME, "test");
                 param(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
             }
+
+ */
             generateQR.isEnabled = false
 
         })

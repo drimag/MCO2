@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+/*
 class TreasureHunt(
     var description: String,
     var poster: User,
@@ -37,11 +38,14 @@ class TreasureHunt(
     }
 }
 
-/*
+ */
+
+
 data class TreasureHunt(
     var id: String = "",
     var description: String = "",
     var posterId: String = "",
+    var postername: String = "",
     var date: String = "", // ISO 8601 format for dates
     var location: String = "", // e.g., "lat,lng" or structured object
     var imageId: Int? = null,
@@ -67,6 +71,15 @@ data class TreasureHunt(
     fun removeWinner(winnerId: String) {
         winners = winners - winnerId
     }
-}
 
- */
+    constructor(treasureID: String, Tdescription: String, posterID: String, Postername: String, Date: String, Location: String) : this() {
+
+        this.id = treasureID
+        this.postername = Postername
+        this.posterId = posterID
+        this.description = Tdescription
+        this.date = Date
+        this.location = Location
+
+    }
+}

@@ -23,9 +23,23 @@ class postAdapter (private val data: ArrayList<TreasureHunt>, private val contex
 
         // Provide logic for clicking on anywhere on the entire itemView of the ViewHolder
         // TODO:: i think this is where we put the post details
+        //get the item attributes and set it here
+
         myViewHolder.itemView.setOnClickListener {
+
+            //check if user has completed it or not and if it is, go to found page, if not, go
+            //to joined treasure page
+
+            /* if(user has completed activity) {
+                val intent : Intent = Intent(myViewHolder.itemView.context, FoundTreasureActivity::class.java
+            } else {
+                val intent : Intent = Intent(myViewHolder.itemView.context, TreasureActivity::class.java)
+            }
+
+             */
             val intent : Intent = Intent(myViewHolder.itemView.context, TreasureActivity::class.java)
 
+            //get the following from the firebaseDB
             intent.putExtra("username", viewBinding.usernameTv.text.toString())
             intent.putExtra("description", viewBinding.descriptionTv.text.toString())
             intent.putExtra("pirates", viewBinding.participantsTv.text.toString())
@@ -34,6 +48,9 @@ class postAdapter (private val data: ArrayList<TreasureHunt>, private val contex
             intent.putExtra("post_image", viewBinding.treasureImageIv.tag as? Int)
             intent.putExtra("fullDate", viewBinding.fullDateTv.text.toString())
             intent.putExtra("fullLocation", viewBinding.fullLocationTv.text.toString())
+
+            //check if user has completed it or not and if it is, go to found page, if not, go
+            //to joined treasure page
 
             context.startActivity(intent)
         }
