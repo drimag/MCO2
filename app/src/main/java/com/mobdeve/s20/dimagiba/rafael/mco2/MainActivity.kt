@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.mobdeve.s20.dimagiba.rafael.mco2.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity() {
 
+    /*
     companion object {
         private var data = ArrayList<TreasureHunt>()
         private var filtered_data = ArrayList<TreasureHunt>()
@@ -33,13 +35,15 @@ class MainActivity : AppCompatActivity() {
         val post3 = TreasureHunt("find my treasure guys heheheheh", user3, CustomDate(2020, 10, 9), Location("Taguig"))
 
         init {
-            // Add all posts to the data list
+             Add all posts to the data list
             data.add(post1)
             data.add(post2)
             data.add(post3)
             filtered_data = data
         }
     }
+
+     */
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: postAdapter
@@ -128,14 +132,73 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
 
+       
+        super.onCreate(savedInstanceState)
+        val viewBinding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+
+            // Initialize Firestore and the treasures list
+        val db = FirebaseFirestore.getInstance()
+        val treasuresList = ArrayList<TreasureHunt>()
+        val treasuresAdapter = postAdapter(treasuresList, this)
+
+            // RecyclerView setup
+        viewBinding.recyclerView.apply {
+            adapter = treasuresAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+
+            // Load treasures from Firestore with snapshot listener
+        db.collection("Treasures").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                Toast.makeText(this, "Error fetching treasures: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+            snapshot?.let {
+                treasuresList.clear()
+                treasuresList.addAll(it.documents.map { document ->
+                    document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                }.filterNotNull()) // Filter out any null objects
+                treasuresAdapter.notifyDataSetChanged()
+            }
+        }
+
+            // Load user profile picture
+        Glide.with(this)
+            .load(R.drawable.chopper)
+            .circleCrop()
+            .into(viewBinding.profileImage)
+
+            // Navigate to user profile on profile image click
+        viewBinding.profileImage.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+
+            // Filter icon click listener
+        viewBinding.filterIcon.setOnClickListener { view ->
+            showPopupMenu(view)
+        }
+
+            // Floating Action Button click listener for adding new treasures
+        viewBinding.fab.setOnClickListener {
+            val intent = Intent(this, AddTreasureActivity::class.java).apply {
+                putExtra("userPFP", R.drawable.chopper)
+            }
+            newTreasureResultLauncher.launch(intent)
+        }
+        
+        /*
         //for getting all posts from Firestore
         val db = FirebaseFirestore.getInstance()
-
         val treasuresList = mutableListOf<TreasureHunt>()
+        val treasuresAdapter = postAdapter(treasuresList, this)
 
-        /*
+
+
+
         db.collection("Treasures").addSnapshotListener { snapshot, error ->
             if (error != null) {
                 Toast.makeText(this, "Error fetching treasures: ${error.message}", Toast.LENGTH_SHORT).show()
@@ -144,16 +207,16 @@ class MainActivity : AppCompatActivity() {
             treasuresList.clear()
             if (snapshot != null) {
                 for (document in snapshot.documents) {
-                    val treasure = document.toObject(Treasure::class.java)?.copy(id = document.id)
+                    val treasure = document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
                     if (treasure != null) {
                         treasuresList.add(treasure)
                     }
                 }
-                treasuresAdapter.notifyDataSetChanged()
+                postAdapter.notifyDataSetChanged()
             }
         }
 
-         */
+
 
 
         super.onCreate(savedInstanceState)
@@ -190,9 +253,12 @@ class MainActivity : AppCompatActivity() {
 
         this.recyclerView = viewBinding.recyclerView
 
-        //change filtered_data to get all the posts from the database collection of Treasures
-        this.postAdapter = postAdapter(treasuresList, this)
+        //change filtered_data to get all the posts from the database collection of Treasure
+        val treasuresArrayList = ArrayList(treasuresList)
+        this.postAdapter = postAdapter(treasuresArrayList, this)
         this.recyclerView.adapter = postAdapter
         this.recyclerView.layoutManager = LinearLayoutManager(this)
+
+         */
     }
 }

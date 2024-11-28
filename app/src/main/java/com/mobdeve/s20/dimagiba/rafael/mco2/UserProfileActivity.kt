@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -21,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -29,6 +31,7 @@ import org.w3c.dom.Text
 
 class UserProfileActivity : AppCompatActivity() {
 
+    /*
     companion object {
         private var data = ArrayList<TreasureHunt>()
         private var own_data = ArrayList<TreasureHunt>()
@@ -59,6 +62,8 @@ class UserProfileActivity : AppCompatActivity() {
             found_data.add(post6)
         }
     }
+
+     */
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var postAdapter: postAdapter
@@ -101,7 +106,46 @@ class UserProfileActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //getting reference to database
+        val db = FirebaseFirestore.getInstance()
+
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+        val username = sharedPreferences.getString("username", null) // Retrieve username
+
+        val userPostsList = ArrayList<TreasureHunt>()
+
+        //for own users post
+        if (userId != null) {
+            db.collection("Treasures")
+                .whereEqualTo("posterId", userId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+
+                    userPostsList.clear()
+                    for (document in querySnapshot.documents) {
+                        val treasure = document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                        if (treasure != null) {
+                            userPostsList.add(treasure)
+                        }
+                    }
+                    // Notify your adapter after updating the list
+                    //change adapter for user posts
+                    ownPostAdapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener { exception ->
+                    exception.printStackTrace()
+                    Toast.makeText(this, "Error fetching user posts: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+
+
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_user_profile)
@@ -114,10 +158,6 @@ class UserProfileActivity : AppCompatActivity() {
         val viewBinding = ActivityUserProfileBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
-        val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
-        val username = sharedPreferences.getString("username", null) // Retrieve username
-
         val usernameText = findViewById<TextView>(R.id.user_profile_username_tv)
         usernameText.text = username
 
@@ -129,7 +169,11 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         this.recyclerView = viewBinding.userProfilePostsRv
-        this.ownPostAdapter = ownPostAdapter(own_data, this)
+
+        //change own data to from database
+
+
+        this.ownPostAdapter = ownPostAdapter(userPostsList, this)
         this.recyclerView.adapter = ownPostAdapter
         this.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -154,7 +198,11 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             deselect(userFoundPostsBtn)
             postsDropdown.visibility = View.VISIBLE
-            this.ownPostAdapter = ownPostAdapter(own_data, this)
+
+            //change own_data to list of from db
+
+
+            this.ownPostAdapter = ownPostAdapter(userPostsList, this)
             this.recyclerView.adapter = ownPostAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
         }
@@ -164,9 +212,21 @@ class UserProfileActivity : AppCompatActivity() {
             select(userJoinedPostsBtn)
             deselect(userFoundPostsBtn)
             postsDropdown.visibility = View.INVISIBLE
+
+            //change joined_data to list of from db
+
+            fetchJoinedTreasures { joinedData ->
+                // Update the RecyclerView with the fetched data
+                this.joinedPostAdapter = joinedPostAdapter(joinedData, this)
+                this.recyclerView.adapter = joinedPostAdapter
+                this.recyclerView.layoutManager = LinearLayoutManager(this)
+            }
+/*
             this.joinedPostAdapter = joinedPostAdapter(joined_data, this)
             this.recyclerView.adapter = joinedPostAdapter
             this.recyclerView.layoutManager = LinearLayoutManager(this)
+
+ */
         }
 
         userFoundPostsBtn.setOnClickListener {
@@ -174,9 +234,16 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             select(userFoundPostsBtn)
             postsDropdown.visibility = View.INVISIBLE
-            this.foundPostAdapter = foundPostAdapter(found_data, this)
-            this.recyclerView.adapter = foundPostAdapter
-            this.recyclerView.layoutManager = LinearLayoutManager(this)
+
+
+            fetchFinishedTreasures { foundList ->
+                // Update the RecyclerView with the fetched data
+                this.foundPostAdapter = foundPostAdapter(foundList, this)
+                this.recyclerView.adapter = foundPostAdapter
+                this.recyclerView.layoutManager = LinearLayoutManager(this)
+            }
+            //change found_data to list of from d
+
         }
         postsDropdown.setOnClickListener {
             showPopupMenu(it)
@@ -215,4 +282,75 @@ class UserProfileActivity : AppCompatActivity() {
         button.setTextColor(ContextCompat.getColor(this, R.color.cool_grey))
         button.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
     }
+
+    private fun fetchJoinedTreasures(onComplete: (ArrayList<TreasureHunt>) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+        //val username = sharedPreferences.getString("username", null) // Retrieve username
+
+        if (userId != null) {
+            db.collection("Treasures")
+                .whereArrayContains("participants", userId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val joinedTreasuresList = ArrayList<TreasureHunt>()
+
+                    for (document in querySnapshot.documents) {
+                        val treasure = document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                        if (treasure != null) {
+                            joinedTreasuresList.add(treasure)
+                        }
+                    }
+
+                    // Pass the list to the callback
+                    onComplete(joinedTreasuresList)
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching joined treasures: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    onComplete(ArrayList()) // Return an empty list on error
+                }
+        } else {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            onComplete(ArrayList()) // Return an empty list if no user is logged in
+        }
+    }
+
+    private fun fetchFinishedTreasures(onComplete: (ArrayList<TreasureHunt>) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+        //val username = sharedPreferences.getString("username", null) // Retrieve username
+
+
+        if (userId != null) {
+            db.collection("Treasures")
+                .whereArrayContains("winners", userId) // Check if the user is in the winners list
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val finishedTreasuresList = ArrayList<TreasureHunt>()
+
+                    for (document in querySnapshot.documents) {
+                        val treasure = document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                        if (treasure != null) {
+                            finishedTreasuresList.add(treasure)
+                        }
+                    }
+
+                    // Pass the list to the callback
+                    onComplete(finishedTreasuresList)
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching finished treasures: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    onComplete(ArrayList()) // Return an empty ArrayList on error
+                }
+        } else {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            onComplete(ArrayList()) // Return an empty ArrayList if no user is logged in
+        }
+    }
+
+
 }

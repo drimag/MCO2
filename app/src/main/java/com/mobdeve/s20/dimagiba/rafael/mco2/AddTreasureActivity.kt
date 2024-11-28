@@ -110,6 +110,7 @@ class AddTreasureActivity : AppCompatActivity() {
                 val username = sharedPreferences.getString("username", null) // Retrieve username
                 val customDate = CustomDate()
                 val formattedDate = customDate.toISO8601String()
+
                 val treasureHunt = TreasureHunt(
                     treasureID = treasureID,
                     Tdescription = this.treasureEt.text.toString(),
