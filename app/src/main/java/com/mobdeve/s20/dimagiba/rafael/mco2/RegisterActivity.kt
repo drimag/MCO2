@@ -48,16 +48,13 @@ class RegisterActivity : AppCompatActivity() {
             registerUser(username, password) { success, message ->
                 if (success) {
                     Toast.makeText(this, "User registered successfully!", Toast.LENGTH_SHORT).show()
+
                     // Navigate to the next screen
                 } else {
                     Toast.makeText(this, "Registration failed: $message", Toast.LENGTH_SHORT).show()
                 }
             }
 
-
-            Toast.makeText(this, "Welcome aboard, pirate!", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -65,7 +62,6 @@ class RegisterActivity : AppCompatActivity() {
     private fun registerUser(userName: String, password: String, onComplete: (Boolean, String?) -> Unit) {
         val db = FirebaseFirestore.getInstance()
 
-        // Hash the password
 
         // Generate a unique ID for the user
         val userId = db.collection("Users").document().id
@@ -84,7 +80,21 @@ class RegisterActivity : AppCompatActivity() {
                     // Username is available, save the user
                     db.collection("Users").document(userId).set(user)
                         .addOnSuccessListener {
+
+                            val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                            val editor = sharedPreferences.edit()
+                            editor.putString("userId", userId) // Store the user's ID
+                            editor.putString("username", userName) // Store the username
+                            editor.apply()
+
+                            // Launch the MainActivity
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Clear back stack
+                            startActivity(intent)
+
                             onComplete(true, userId) // Notify success
+
+
                         }
                         .addOnFailureListener { exception ->
                             exception.printStackTrace()

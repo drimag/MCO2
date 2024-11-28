@@ -35,6 +35,9 @@ class JoinedTreasureActivity : AppCompatActivity() {
 
         val pirates = intent.getStringExtra("pirates_joined")
         val piratesTv = findViewById<TextView>(R.id.pirateCount)
+
+        //get the amount joined from the database in the treasure hunt
+
         piratesTv.text = pirates
 
         val plundered = intent.getStringExtra("plundered_joined")

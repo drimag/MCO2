@@ -25,6 +25,7 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import com.mobdeve.s20.dimagiba.rafael.mco2.databinding.ActivityUserProfileBinding
+import org.w3c.dom.Text
 
 class UserProfileActivity : AppCompatActivity() {
 
@@ -64,6 +65,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var ownPostAdapter: ownPostAdapter
     private lateinit var joinedPostAdapter: joinedPostAdapter
     private lateinit var foundPostAdapter: foundPostAdapter
+    private lateinit var usernameText: TextView
 
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
@@ -111,6 +113,13 @@ class UserProfileActivity : AppCompatActivity() {
 
         val viewBinding = ActivityUserProfileBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+        val username = sharedPreferences.getString("username", null) // Retrieve username
+
+        val usernameText = findViewById<TextView>(R.id.user_profile_username_tv)
+        usernameText.text = username
 
         R.drawable.chopper.let {
             Glide.with(viewBinding.userProfilePicIv)
@@ -180,6 +189,13 @@ class UserProfileActivity : AppCompatActivity() {
         builder.setTitle("Log Out")
             .setMessage("Are you sure you want to log out of this account?")
             .setPositiveButton("Yes") {dialog, _ ->
+
+                //clear session data
+                val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.clear()
+                editor.apply()
+
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 dialog.dismiss()

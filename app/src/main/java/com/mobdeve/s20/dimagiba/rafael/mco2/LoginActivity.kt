@@ -73,6 +73,20 @@ class LoginActivity : AppCompatActivity() {
                     if (storedPassword == password) {
                         // Password matches, login is successful
                         Toast.makeText(this, "Correct password", Toast.LENGTH_SHORT).show()
+
+                        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("userId", document.id)  // Store the user's document ID
+                        editor.putString("username", userName)  // Store the username
+                        editor.apply()
+
+                        // Pass user data to MainActivity
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("userId", document.id)
+                        intent.putExtra("username", userName)
+                        startActivity(intent)
+                        finish()
+
                         // Proceed to the next activity (MainActivity or home screen)
                     } else {
                         // Password mismatch

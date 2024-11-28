@@ -41,6 +41,7 @@ class QRScannerActivity : AppCompatActivity() {
             } else {
                 scanResult.text = "QR Code Scanned: ${result.contents}"
                 // Future logic to handle the treasure claim will go here
+
             }
         }
 }
