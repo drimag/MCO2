@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -41,7 +42,7 @@ class QRScannerActivity : AppCompatActivity() {
             } else {
                 scanResult.text = "QR Code Scanned: ${result.contents}"
                 // Future logic to handle the treasure claim will go here
-
+                Toast.makeText(this,scanResult.toString(), Toast.LENGTH_SHORT)
 
                 //get the information from the QR code, which should only include the ID of the treasure
                 //if the ID of the treasure matches that of the treasure

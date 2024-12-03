@@ -165,8 +165,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginBottom="8dp"
-                android:contentDescription="Tweet image"
-                android:src="@drawable/sample_qr" />
+                android:contentDescription="Tweet image" />
 
             <TextView
                 android:id="@+id/imageDescTv"

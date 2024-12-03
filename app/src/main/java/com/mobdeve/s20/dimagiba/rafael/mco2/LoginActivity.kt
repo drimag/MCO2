@@ -78,12 +78,14 @@ class LoginActivity : AppCompatActivity() {
                         val editor = sharedPreferences.edit()
                         editor.putString("userId", document.id)  // Store the user's document ID
                         editor.putString("username", userName)  // Store the username
+                        editor.putString("pfp", document.getString("profileImageId"))
                         editor.apply()
 
                         // Pass user data to MainActivity
                         val intent = Intent(this, MainActivity::class.java)
                         intent.putExtra("userId", document.id)
                         intent.putExtra("username", userName)
+                        intent.putExtra("profileImageId", document.getString("profileImageId"))
                         startActivity(intent)
                         finish()
 

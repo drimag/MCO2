@@ -35,7 +35,7 @@ data class User(
     var id: String = "",
     var password: String = "",
     var userName: String = "",
-    var profileImageId: Int = 0,
+    var profileImageId: String = "R.drawable.default_pfp",
     var posts: List<String> = listOf(), // List of TreasureHunt IDs
     var joinedHunts: List<String> = listOf(), // List of TreasureHunt IDs
     var foundHunts: List<String> = listOf() // List of TreasureHunt IDs
@@ -61,7 +61,7 @@ data class User(
         foundHunts = foundHunts + huntId
     }
 
-    constructor(userName: String, profileImageId: Int) : this() {
+    constructor(userName: String, profileImageId: String) : this() {
         this.userName = userName
         this.profileImageId = profileImageId
     }

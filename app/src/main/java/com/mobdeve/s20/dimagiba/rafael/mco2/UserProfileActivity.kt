@@ -115,6 +115,8 @@ class UserProfileActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
         val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
         val username = sharedPreferences.getString("username", null) // Retrieve username
+        val pfpString = sharedPreferences.getString("pfp", null) // Retrieve username
+        val pfp = pfpString?.let { getDrawableIdFromString(it) };
 
         val userPostsList = ArrayList<TreasureHunt>()
 
@@ -163,7 +165,7 @@ class UserProfileActivity : AppCompatActivity() {
 
         R.drawable.chopper.let {
             Glide.with(viewBinding.userProfilePicIv)
-                .load(it)
+                .load(pfp)
                 .circleCrop()
                 .into(viewBinding.userProfilePicIv)
         }
@@ -349,6 +351,14 @@ class UserProfileActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
             onComplete(ArrayList()) // Return an empty ArrayList if no user is logged in
+        }
+    }
+    private fun getDrawableIdFromString(drawableString: String): Int {
+        if (drawableString.startsWith("R.drawable.")) {
+            val resourceName = drawableString.substring("R.drawable.".length)
+            return resources.getIdentifier(resourceName, "drawable", packageName)
+        } else {
+            throw IllegalArgumentException("Invalid drawable string: $drawableString")
         }
     }
 

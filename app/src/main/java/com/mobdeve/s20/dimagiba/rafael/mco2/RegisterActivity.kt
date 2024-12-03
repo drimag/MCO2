@@ -85,6 +85,7 @@ class RegisterActivity : AppCompatActivity() {
                             val editor = sharedPreferences.edit()
                             editor.putString("userId", userId) // Store the user's ID
                             editor.putString("username", userName) // Store the username
+                            editor.putString("pfp", "R.drawable.default_pfp")
                             editor.apply()
 
                             // Launch the MainActivity

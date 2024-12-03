@@ -53,6 +53,8 @@ class AddTreasureActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             val newLocation = result.data?.getStringExtra(MapActivity.NEW_LOCATION) ?: "LocationError"
             treasureLocation.text = newLocation
+            treasureEt.isEnabled = true;
+            generateQR.isEnabled = true;
         }
     }
 
@@ -79,7 +81,7 @@ class AddTreasureActivity : AppCompatActivity() {
         this.treasureLocationBtn = findViewById<LinearLayout>(R.id.treasure_location_ll)
         this.treasureLocation = findViewById<TextView>(R.id.treasureLocation)
 
-        generateQR.isEnabled = true
+        generateQR.isEnabled = false;
 
 
         val pfp = intent.getIntExtra("userPFP", 0)
@@ -117,12 +119,12 @@ class AddTreasureActivity : AppCompatActivity() {
                     posterID = userId.toString(),
                     Postername = username.toString(),
                     Date = formattedDate,
-                    Location = "12.9716,77.5946" // Example lat, lng coordinates
+                    Location = treasureLocation.text.toString() // Example lat, lng coordinates
                 )
 
 
 // Save the TreasureHunt object to Firestore
-                db.collection("Treasure").document(treasureHunt.id).set(treasureHunt)
+                db.collection("Treasures").document(treasureHunt.id).set(treasureHunt)
                     .addOnSuccessListener {
                         // Successfully added the treasure hunt to Firestore
                         Log.d("Firestore", "Treasure hunt added successfully!")

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.View
-import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -145,6 +144,10 @@ class MainActivity : AppCompatActivity() {
         val treasuresList = ArrayList<TreasureHunt>()
         val treasuresAdapter = postAdapter(treasuresList, this)
 
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val pfpString = sharedPreferences.getString("pfp", null) // Retrieve user ID
+        val pfp = pfpString?.let { getDrawableIdFromString(it) };
+
             // RecyclerView setup
         viewBinding.recyclerView.apply {
             adapter = treasuresAdapter
@@ -160,15 +163,18 @@ class MainActivity : AppCompatActivity() {
             snapshot?.let {
                 treasuresList.clear()
                 treasuresList.addAll(it.documents.map { document ->
+
                     document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
                 }.filterNotNull()) // Filter out any null objects
                 treasuresAdapter.notifyDataSetChanged()
             }
         }
 
+        Toast.makeText(this, pfpString, Toast.LENGTH_SHORT).show()
+
             // Load user profile picture
         Glide.with(this)
-            .load(R.drawable.chopper)
+            .load(pfp)
             .circleCrop()
             .into(viewBinding.profileImage)
 
@@ -261,4 +267,13 @@ class MainActivity : AppCompatActivity() {
 
          */
     }
+    private fun getDrawableIdFromString(drawableString: String): Int {
+        if (drawableString.startsWith("R.drawable.")) {
+            val resourceName = drawableString.substring("R.drawable.".length)
+            return resources.getIdentifier(resourceName, "drawable", packageName)
+        } else {
+            throw IllegalArgumentException("Invalid drawable string: $drawableString")
+        }
+    }
+
 }

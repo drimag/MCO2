@@ -50,7 +50,7 @@ data class TreasureHunt(
     var location: String = "", // e.g., "lat,lng" or structured object
     var imageId: Int? = null,
     var isFound: Boolean = false,
-    var isVerified: Boolean = true,
+    var isVerified: Boolean = false,
     var foundDate: String? = null,
     var participants: List<String> = listOf(), // List of user IDs
     var winners: List<String> = listOf() // List of user IDs
