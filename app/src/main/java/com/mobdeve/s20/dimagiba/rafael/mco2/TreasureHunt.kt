@@ -46,9 +46,10 @@ data class TreasureHunt(
     var description: String = "",
     var posterId: String = "",
     var postername: String = "",
+    var posterPfp: String = "",
     var date: String = "", // ISO 8601 format for dates
     var location: String = "", // e.g., "lat,lng" or structured object
-    var imageId: Int? = null,
+    var imageId: Int = 0,
     var isFound: Boolean = false,
     var isVerified: Boolean = false,
     var foundDate: String? = null,
@@ -72,7 +73,7 @@ data class TreasureHunt(
         winners = winners - winnerId
     }
 
-    constructor(treasureID: String, Tdescription: String, posterID: String, Postername: String, Date: String, Location: String) : this() {
+    constructor(treasureID: String, Tdescription: String, posterID: String, Postername: String, Date: String, Location: String, posterPfp: String) : this() {
 
         this.id = treasureID
         this.postername = Postername
@@ -80,6 +81,6 @@ data class TreasureHunt(
         this.description = Tdescription
         this.date = Date
         this.location = Location
-
+        this.posterPfp = posterPfp
     }
 }

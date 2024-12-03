@@ -72,6 +72,10 @@ class AddTreasureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_treasure)
 
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val pfpString = sharedPreferences.getString("pfp", null) // Retrieve username
+        val pfp = pfpString?.let { getDrawableIdFromString(it) };
+
         this.cancelBtn = findViewById<Button>(R.id.cancelBtn)
         this.postBtn = findViewById<Button>(R.id.postBtn)
         this.treasureEt = findViewById<EditText>(R.id.treasureET)
@@ -84,11 +88,11 @@ class AddTreasureActivity : AppCompatActivity() {
         generateQR.isEnabled = false;
 
 
-        val pfp = intent.getIntExtra("userPFP", 0)
+        //val pfp = intent.getIntExtra("userPFP", 0)
 
-        pfp.let {
+        R.drawable.chopper.let {
             Glide.with(userPFP)
-                .load(it)
+                .load(pfp)
                 .circleCrop()
                 .into(userPFP)
         }
@@ -107,7 +111,6 @@ class AddTreasureActivity : AppCompatActivity() {
                 val intent : Intent = Intent()
                 intent.putExtra(AddTreasureActivity.TREASURE_CONTENT_KEY, this.treasureEt.text.toString())
 
-                val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
                 val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
                 val username = sharedPreferences.getString("username", null) // Retrieve username
                 val customDate = CustomDate()
@@ -119,6 +122,7 @@ class AddTreasureActivity : AppCompatActivity() {
                     posterID = userId.toString(),
                     Postername = username.toString(),
                     Date = formattedDate,
+                    posterPfp = pfpString?:"null",
                     Location = treasureLocation.text.toString() // Example lat, lng coordinates
                 )
 
@@ -269,6 +273,12 @@ class AddTreasureActivity : AppCompatActivity() {
             }
         }
     }
-
-
+    private fun getDrawableIdFromString(drawableString: String): Int {
+        if (drawableString.startsWith("R.drawable.")) {
+            val resourceName = drawableString.substring("R.drawable.".length)
+            return resources.getIdentifier(resourceName, "drawable", packageName)
+        } else {
+            throw IllegalArgumentException("Invalid drawable string: $drawableString")
+        }
+    }
 }
