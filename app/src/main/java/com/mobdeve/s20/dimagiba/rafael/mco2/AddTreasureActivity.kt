@@ -27,6 +27,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
@@ -128,17 +129,26 @@ class AddTreasureActivity : AppCompatActivity() {
                     Location = treasureLocation.text.toString() // Example lat, lng coordinates
                 )
 
-
-// Save the TreasureHunt object to Firestore
+                // Save the TreasureHunt object to Firestore
                 db.collection("Treasures").document(treasureHunt.id).set(treasureHunt)
                     .addOnSuccessListener {
                         // Successfully added the treasure hunt to Firestore
                         Log.d("Firestore", "Treasure hunt added successfully!")
+
+                        // add to user posts list
+                        db.collection("Users").document(treasureHunt.posterId)
+                            .update("posts", FieldValue.arrayUnion(treasureHunt.id))
+                            .addOnSuccessListener {
+                                Log.d("Firestore", "User's posts list updated successfully!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("Firestore", "Error updating user's posts list", e)
+                            }
                     }
                     .addOnFailureListener { e ->
-                        // Handle failure
                         Log.e("Firestore", "Error adding treasure hunt", e)
                     }
+
                 //instantiate the class, get the customdate, location etc
                 //add it to the firebase
 
