@@ -46,10 +46,19 @@ class QRScannerActivity : AppCompatActivity() {
 
                 //get the information from the QR code, which should only include the ID of the treasure
                 //if the ID of the treasure matches that of the treasure
+
+                // if ID is a treasure hunt from another user in the database:
+                // user might already be a winner,
                 // add the userID to the winner list of the treasure, use the savedpreferences for that
                 // remove the user from the participants
                 // add the treasureID to the userID list of foundtreasure
                 // remove the treasureID from the users list of joinedtreasure
+
+                // if ID is a treasure hunt of the user that they are trying to verify:
+                // change state of the post to verified?
+                //
+
+
 
             }
         }
