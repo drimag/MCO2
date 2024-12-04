@@ -5,9 +5,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -35,31 +39,107 @@ class QRScannerActivity : AppCompatActivity() {
         qrCodeLauncher.launch(options)
     }
 
+    fun verifyTreasure(treasureRef: DocumentReference) {
+        treasureRef.update("verified", true)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Verified!", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error verifying treasure", e)
+            }
+    }
+
+    // Helper function to update the treasure's winners and participants
+    fun updateTreasureParticipantsAndWinners(treasureRef: DocumentReference, userRef: DocumentReference, userId: String, treasureID: String) {
+        treasureRef.update("winners", FieldValue.arrayUnion(userId))
+            .addOnSuccessListener {
+                treasureRef.update("participants", FieldValue.arrayRemove(userId))
+                    .addOnSuccessListener {
+                        updateUserHuntLists(userRef, treasureID)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firestore", "Error removing user from participants", e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error adding user to winners", e)
+            }
+    }
+
+    // Helper function to update the user's hunt lists
+    fun updateUserHuntLists(userRef: DocumentReference, treasureID: String) {
+        userRef.update("foundHunts", FieldValue.arrayUnion(treasureID))
+            .addOnSuccessListener {
+                userRef.update("joinedHunts", FieldValue.arrayRemove(treasureID))
+                    .addOnSuccessListener {
+                        scanResult.text = "Treasure hunt completed successfully!"
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firestore", "Error removing treasure from joinedHunts", e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error adding treasure to foundHunts", e)
+            }
+    }
+
     private val qrCodeLauncher: ActivityResultLauncher<ScanOptions> =
         registerForActivityResult(ScanContract()) { result: ScanIntentResult ->
             if (result.contents == null) {
                 scanResult.text = "Scan canceled"
             } else {
                 scanResult.text = "QR Code Scanned: ${result.contents}"
-                // Future logic to handle the treasure claim will go here
-                Toast.makeText(this,scanResult.toString(), Toast.LENGTH_SHORT)
+                val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                val db = FirebaseFirestore.getInstance()
+                val userId = sharedPreferences.getString("userId", null) // Retrieve currentuser ID
+                val treasureID = result.contents; // scanned returns a treasureID
 
-                //get the information from the QR code, which should only include the ID of the treasure
-                //if the ID of the treasure matches that of the treasure
+                // if ID is a treasure hunt found in the "posts" list of the current user in the "Users" collection:
+                // look for a treasure in "Treasures" collection with same ID and change verified from false to true
 
-                // if ID is a treasure hunt from another user in the database:
-                // user might already be a winner,
-                // add the userID to the winner list of the treasure, use the savedpreferences for that
-                // remove the user from the participants
-                // add the treasureID to the userID list of foundtreasure
-                // remove the treasureID from the users list of joinedtreasure
+                // else if ID is a treasure hunt found in the "Treasures" collection:
+                // add the userID to the "winners" list of the treasure in the treasure collection
+                // remove the user from the "participants" list of the treasure
 
-                // if ID is a treasure hunt of the user that they are trying to verify:
-                // change state of the post to verified?
-                //
+                // add the treasureID to the user's "foundHunts" list in the user collection
+                // remove the treasureID to the user's "joinedHunts" list in the user collection
 
+                if (userId == null || treasureID == null) {
+                    scanResult.text = "Invalid user or treasure ID."
+                    return@registerForActivityResult // TODO: what does this do
+                }
 
+                val userRef = db.collection("Users").document(userId)
+                val treasureRef = db.collection("Treasures").document(treasureID)
 
+                userRef.get().addOnSuccessListener { userSnapshot ->
+                    if (!userSnapshot.exists()) {
+                        scanResult.text = "User not found in Firestore."
+                        return@addOnSuccessListener
+                    }
+
+                    val posts = userSnapshot.get("posts") as? List<String>
+                    if (posts?.contains(treasureID) == true) { // the scanned post is the user's
+                        // this means they are attempting to verify posting
+                        verifyTreasure(treasureRef)
+                    } else {
+                        // update winners and participants since its not their post, they are a participant (possible also they just found it)
+                        treasureRef.get().addOnSuccessListener { treasureSnapshot ->
+                            if (!treasureSnapshot.exists()) {
+                                scanResult.text = "Treasure ID not found in Treasures collection."
+                                return@addOnSuccessListener
+                            }
+
+                            updateTreasureParticipantsAndWinners(treasureRef, userRef, userId, treasureID)
+                        }.addOnFailureListener { e ->
+                            Log.e("Firestore", "Error retrieving treasure", e)
+                        }
+                    }
+                }.addOnFailureListener { e ->
+                    Log.e("Firestore", "Error retrieving user", e)
+                }
             }
         }
+
+
 }
