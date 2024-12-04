@@ -96,6 +96,11 @@ class MapActivity : AppCompatActivity() {
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.setMultiTouchControls(true)
 
+        // opens over manila by default
+        val mapController = map.controller
+        mapController.setZoom(12.0)
+        mapController.setCenter(GeoPoint(14.6091, 121.0223))
+
         val mapEventsReceiver = object : MapEventsReceiver {
             override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
                 changeMarkerPosition(p)
