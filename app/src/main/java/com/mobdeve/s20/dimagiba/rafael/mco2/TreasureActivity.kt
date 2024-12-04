@@ -78,9 +78,9 @@ class TreasureActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
             val db = FirebaseFirestore.getInstance()
             val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
-            val treasureId = "vXEj1MSzsXyTax35xBuc"; // TODO: find a way to retrieve current post
+            val treasureId = intent.getStringExtra("TREASURE_ID"); // TODO: find a way to retrieve current post
 
-            if (userId != null) {
+            if (userId != null && treasureId != null) {
                 val batch = db.batch()
 
                 // add user to participant list of the treasure post
