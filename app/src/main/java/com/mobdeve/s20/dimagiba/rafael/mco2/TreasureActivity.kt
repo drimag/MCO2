@@ -1,6 +1,7 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 
 class TreasureActivity : AppCompatActivity() {
 
@@ -71,7 +75,36 @@ class TreasureActivity : AppCompatActivity() {
         val joinButton = findViewById<Button>(R.id.treasureJoin)
 
         joinButton.setOnClickListener {
-            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
+            val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+            val db = FirebaseFirestore.getInstance()
+            val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+            val treasureId = "vXEj1MSzsXyTax35xBuc"; // TODO: find a way to retrieve current post
+
+            if (userId != null) {
+                val batch = db.batch()
+
+                // add user to participant list of the treasure post
+                val treasureRef = db.collection("Treasures").document(treasureId)
+                batch.update(treasureRef, "participants", FieldValue.arrayUnion(userId))
+
+                // add treasure hunt to current user's joined Hunts
+                val userRef = db.collection("Users").document(userId)
+                batch.update(userRef, "joinedHunts", FieldValue.arrayUnion(treasureId))
+
+                // commit
+                batch.commit()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
+                        Log.d("Firestore", "Batched write successful: User added to participants and treasure added to joinedHunts.")
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed to join hunt.", Toast.LENGTH_LONG).show()
+                        Log.e("Firestore", "Batched write failed", e)
+                    }
+            } else {
+                Toast.makeText(this, "User not logged in!", Toast.LENGTH_LONG).show()
+            }
+
             finish()
         }
 
