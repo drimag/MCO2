@@ -27,27 +27,27 @@ class OwnTreasureActivity : AppCompatActivity() {
             insets
         }
 
-        val username = intent.getStringExtra("username_own")
+        val username = intent.getStringExtra("username")
         val usernameTv = findViewById<TextView>(R.id.treasureUsername)
         usernameTv.text = username
 
-        val description = intent.getStringExtra("description_own")
+        val description = intent.getStringExtra("description")
         val descriptionTv = findViewById<TextView>(R.id.treasureDescription)
         descriptionTv.text = description
 
-        val pirates = intent.getStringExtra("pirates_own")
+        val pirates = intent.getStringExtra("pirates")
         val piratesTv = findViewById<TextView>(R.id.pirateCount)
         piratesTv.text = pirates
 
-        val plundered = intent.getStringExtra("plundered_own")
+        val plundered = intent.getStringExtra("plundered")
         val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
         plunderedTv.text = plundered
 
-        val fullDate = intent.getStringExtra("fullDate_own")
+        val fullDate = intent.getStringExtra("fullDate")
         val fullDateTv = findViewById<TextView>(R.id.startDate)
         fullDateTv.text = fullDate
 
-        val fullLocation = intent.getStringExtra("fullLocation_own")
+        val fullLocation = intent.getStringExtra("fullLocation")
         val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
         fullLocationTv.text = fullLocation
 
@@ -63,7 +63,8 @@ class OwnTreasureActivity : AppCompatActivity() {
             verifyButton.visibility = View.GONE
         }
 
-        val pfp = intent.getIntExtra("pfp_own", 0)
+//        val pfp = intent.getIntExtra("pfp_own", 0)
+        val pfp = intent.getIntExtra("pfp", 0)
         val pfpTv = findViewById<ImageView>(R.id.treasureImage)
 
         pfp.let {
@@ -73,7 +74,7 @@ class OwnTreasureActivity : AppCompatActivity() {
                 .into(pfpTv)
         }
 
-        val postImage = intent.getIntExtra("postImage_own", 0)
+        val postImage = intent.getIntExtra("postImage", 0)
         val postImageTv = findViewById<ImageView>(R.id.postImageIv)
         postImageTv.setImageResource(postImage)
 
@@ -83,6 +84,8 @@ class OwnTreasureActivity : AppCompatActivity() {
             finish()
         }
 
+
+        //do you need this?
         val joinButton = findViewById<Button>(R.id.treasureVerify)
 
         joinButton.setOnClickListener {
