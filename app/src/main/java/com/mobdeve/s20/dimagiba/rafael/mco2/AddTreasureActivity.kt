@@ -2,36 +2,35 @@ package com.mobdeve.s20.dimagiba.rafael.mco2
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import android.graphics.Bitmap
-import android.os.Environment
-import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.WriterException
-import com.journeyapps.barcodescanner.BarcodeEncoder
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
-import com.google.firebase.analytics.logEvent
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.io.File
 import java.io.FileOutputStream
 
@@ -170,7 +169,7 @@ class AddTreasureActivity : AppCompatActivity() {
             qrBitmap?.let {
                 // Display the generated QR code on ImageView
                 QRCode.setImageBitmap(it)
-                saveQRCodeToDevice(it, "QRCode_$treasureID")
+                saveQRCodeToDevice(this, it, "QRCode_$treasureID")
             }
 
             //checkLocationPermissionAndGenerateQR()
@@ -285,11 +284,10 @@ class AddTreasureActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveQRCodeToDevice(bitmap: Bitmap, fileName: String) {
+    private fun saveQRCodeToDevice(context: Context, bitmap: Bitmap, fileName: String) {
         try {
-            // Get the public Pictures directory
-            val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-            val directory = File(path, "QRCodeImages")
+            // save in screenshots directory in dcim
+            val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Screenshots")
 
             // Ensure the directory exists
             if (!directory.exists()) {
@@ -297,8 +295,8 @@ class AddTreasureActivity : AppCompatActivity() {
             }
 
             // Create the file
-            val file = File(directory, "$fileName.png")
-            val outputStream = FileOutputStream(file)
+            val image: File = File(directory, "$fileName.png")
+            val outputStream = FileOutputStream(image)
 
             // Compress and write the bitmap to the file
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
@@ -307,8 +305,15 @@ class AddTreasureActivity : AppCompatActivity() {
             outputStream.flush()
             outputStream.close()
 
-            // Notify the user
-            Toast.makeText(QRCode.context, "QR Code saved to: ${file.absolutePath}", Toast.LENGTH_LONG).show()
+            // media scanner called for image to be viewable in gallery
+            MediaScannerConnection.scanFile(
+                context,
+                arrayOf(image.absolutePath),
+                arrayOf("image/png")
+            ){ _, _ ->
+                Toast.makeText(context, "QR Code saved and visible in Gallery!", Toast.LENGTH_SHORT).show()
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(QRCode.context, "Failed to save QR Code", Toast.LENGTH_SHORT).show()
