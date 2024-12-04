@@ -32,14 +32,14 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
                 intent.putExtra("needs_verification", true)
             }
 
-            intent.putExtra("username_own", viewBinding.usernameTv.text.toString())
-            intent.putExtra("description_own", viewBinding.descriptionTv.text.toString())
-            intent.putExtra("pirates_own", viewBinding.participantsTv.text.toString())
-            intent.putExtra("plundered_own", viewBinding.winnersTv.text.toString())
-            intent.putExtra("pfp_own", viewBinding.userImageIv.tag as? Int)
-            intent.putExtra("postImage_own", viewBinding.treasureImageIv.tag as? Int)
-            intent.putExtra("fullDate_own", viewBinding.fullDateTv.text.toString())
-            intent.putExtra("fullLocation_own", viewBinding.fullLocationTv.text.toString())
+            intent.putExtra("username", viewBinding.usernameTv.text.toString())
+            intent.putExtra("description", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("pirates", viewBinding.participantsTv.text.toString())
+            intent.putExtra("plundered", viewBinding.winnersTv.text.toString())
+            intent.putExtra("pfp", viewBinding.userImageIv.tag as? Int)
+            intent.putExtra("postImage", viewBinding.treasureImageIv.tag as? Int)
+            intent.putExtra("fullDate", viewBinding.fullDateTv.text.toString())
+            intent.putExtra("fullLocation", viewBinding.fullLocationTv.text.toString())
 
             context.startActivity(intent)
         }
@@ -53,5 +53,10 @@ class ownPostAdapter (private val data: ArrayList<TreasureHunt>, private val con
     override fun getItemCount(): Int {
         return data.size
     }
+
+//    fun updateData(newPosts: List<TreasureHunt>) {
+//        this.posts = newPosts
+//        notifyDataSetChanged()
+//    }
 
 }

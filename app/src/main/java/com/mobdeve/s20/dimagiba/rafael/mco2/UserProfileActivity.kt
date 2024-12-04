@@ -80,23 +80,25 @@ class UserProfileActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.pending -> {
                     // Handle filtering by day
-                    Toast.makeText(this, "Showing Pending Posts (Logic not Implemented)", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "Showing Pending Posts (Logic not Implemented)", Toast.LENGTH_SHORT).show()
+                    updateOwnAdaptor("Pending Posts")
                     val filterTextView: TextView = findViewById(R.id.filter_text_tv)
                     filterTextView.text = "Pending Posts"
                     true
-
                 }
                 R.id.verified -> {
                     // Handle filtering by month
-                    Toast.makeText(this, "Showing Verified Posts (Logic not Implemented)", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "Showing Verified Posts (Logic not Implemented)", Toast.LENGTH_SHORT).show()
                     val filterTextView: TextView = findViewById(R.id.filter_text_tv)
                     filterTextView.text = "Verified Posts"
+                    updateOwnAdaptor("Verified Posts")
                     true
                 }
                 R.id.All -> {
                     // Handle filtering by year
-                    Toast.makeText(this, "Showing All Posts (Logic not Implemented)", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this, "Showing All Posts (Logic not Implemented)", Toast.LENGTH_SHORT).show()
                     val filterTextView: TextView = findViewById(R.id.filter_text_tv)
+                    updateOwnAdaptor("All Posts")
                     filterTextView.text = "All Posts"
                     true
                 }
@@ -200,7 +202,8 @@ class UserProfileActivity : AppCompatActivity() {
             deselect(userJoinedPostsBtn)
             deselect(userFoundPostsBtn)
             postsDropdown.visibility = View.VISIBLE
-
+            val filterTextView: TextView = findViewById(R.id.filter_text_tv)
+            filterTextView.text = "All Posts"
             //change own_data to list of from db
 
 
@@ -362,5 +365,46 @@ class UserProfileActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateOwnAdaptor(filter: String){
+        val db = FirebaseFirestore.getInstance()
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", null) // Retrieve user ID
+
+        val userPostsList = ArrayList<TreasureHunt>()
+
+        if (userId != null) {
+            db.collection("Treasures")
+                .whereEqualTo("posterId", userId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+
+                    userPostsList.clear()
+                    for (document in querySnapshot.documents) {
+                        val treasure = document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                        if(filter == "Pending Posts" && treasure != null && !treasure.isVerified) {
+                            userPostsList.add(treasure)
+                        }
+                        else if (filter == "Verified Posts" && treasure != null && treasure.isVerified) {
+                            userPostsList.add(treasure)
+                        }
+                        else if (filter == "All Posts" && treasure != null){
+                            userPostsList.add(treasure)
+                        }
+                    }
+                    // Notify your adapter after updating the list
+                    //change adapter for user posts
+                    ownPostAdapter.notifyDataSetChanged()
+                    this.ownPostAdapter = ownPostAdapter(userPostsList, this)
+                    this.recyclerView.adapter = ownPostAdapter
+                    this.recyclerView.layoutManager = LinearLayoutManager(this)
+                }
+                .addOnFailureListener { exception ->
+                    exception.printStackTrace()
+                    Toast.makeText(this, "Error fetching user posts: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }

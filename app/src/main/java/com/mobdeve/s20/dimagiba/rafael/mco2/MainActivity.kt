@@ -148,6 +148,9 @@ class MainActivity : AppCompatActivity() {
         val pfpString = sharedPreferences.getString("pfp", null) // Retrieve user ID
         val pfp = pfpString?.let { getDrawableIdFromString(it) };
 
+        // check if user is logged in first before anything else
+        // if not logged in open up the login activity
+
             // RecyclerView setup
         viewBinding.recyclerView.apply {
             adapter = treasuresAdapter

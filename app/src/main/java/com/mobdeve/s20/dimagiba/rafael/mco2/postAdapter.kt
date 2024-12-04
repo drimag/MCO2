@@ -47,8 +47,8 @@ class postAdapter (private val data: ArrayList<TreasureHunt>, private val contex
             val treasureHunt = data[position]
             val treasureId = treasureHunt.id
             val treasurePoster = treasureHunt.posterId
-            val winners = treasureHunt.winners // Assuming `winners` is a List<String>
-            val participants = treasureHunt.participants // Assuming `participants` is a List<String>
+            val winners = treasureHunt.winners
+            val participants = treasureHunt.participants
 
             // Access SharedPreferences to retrieve the current user's ID
             val sharedPreferences = context.getSharedPreferences("UserSession", Context.MODE_PRIVATE)
