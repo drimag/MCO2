@@ -170,7 +170,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Toast.makeText(this, pfpString, Toast.LENGTH_SHORT).show()
 
             // Load user profile picture
         Glide.with(this)
