@@ -174,7 +174,9 @@ class MainActivity : AppCompatActivity() {
         }
 
             // Load treasures from Firestore with snapshot listener
-        db.collection("Treasures").addSnapshotListener { snapshot, error ->
+        db.collection("Treasures")
+            .whereEqualTo("verified", true)
+            .addSnapshotListener { snapshot, error ->
             if (error != null) {
                 Toast.makeText(this, "Error fetching treasures: ${error.message}", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
