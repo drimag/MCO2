@@ -93,6 +93,7 @@ class postAdapter (private val data: ArrayList<TreasureHunt>, private val contex
             intent.putExtra("post_image", viewBinding.treasureImageIv.tag as? Int)
             intent.putExtra("fullDate", viewBinding.fullDateTv.text.toString())
             intent.putExtra("fullLocation", viewBinding.fullLocationTv.text.toString())
+            intent.putExtra("needs_verification", !treasureHunt.isVerified)
 
             //check if user has completed it or not and if it is, go to found page, if not, go
             //to joined treasure page
