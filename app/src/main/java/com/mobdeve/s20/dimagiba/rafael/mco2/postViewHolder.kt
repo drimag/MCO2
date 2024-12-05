@@ -87,9 +87,9 @@ class postViewHolder (private val viewBinding: TreasurePostLayoutBinding): Recyc
 
     private fun getCityFromLocation(location: String): String {
         // Example implementation to extract city from location
-        val components = location.split(",").map { it.trim() } // Split and trim whitespace
+        val components = location.split(",").map { it.trim() }
         return if (components.size >= 2) {
-            components[components.size - 2].split(" ").first() // Get first word of the second-to-last component
+            components[components.size - 2] // Return the second-to-last component
         } else {
             "Unknown location"
         }
