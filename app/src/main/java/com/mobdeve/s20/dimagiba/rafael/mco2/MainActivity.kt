@@ -155,6 +155,14 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
         val pfpString = sharedPreferences.getString("pfp", null) // Retrieve user ID
         val pfp = pfpString?.let { getDrawableIdFromString(it) };
+        val userId = sharedPreferences.getString("userId", null)
+
+        if (userId == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // Close MainActivity so the user can't return by pressing back
+            return
+        }
 
         // check if user is logged in first before anything else
         // if not logged in open up the login activity
