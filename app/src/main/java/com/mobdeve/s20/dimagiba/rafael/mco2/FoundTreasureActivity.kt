@@ -46,10 +46,6 @@ class FoundTreasureActivity : AppCompatActivity() {
         val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
         fullLocationTv.text = fullLocation
 
-        val foundDate = intent.getStringExtra("foundDate")
-        val foundDateTv = findViewById<TextView>(R.id.treasureFoundDate)
-        foundDateTv.text = foundDate
-
         val pfp = intent.getIntExtra("pfp", 0)
         val pfpTv = findViewById<ImageView>(R.id.treasureImage)
 

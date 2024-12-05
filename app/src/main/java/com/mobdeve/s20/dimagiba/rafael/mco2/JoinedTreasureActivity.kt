@@ -25,34 +25,34 @@ class JoinedTreasureActivity : AppCompatActivity() {
             insets
         }
 
-        val username = intent.getStringExtra("username_joined")
+        val username = intent.getStringExtra("username")
         val usernameTv = findViewById<TextView>(R.id.treasureUsername)
         usernameTv.text = username
 
-        val description = intent.getStringExtra("description_joined")
+        val description = intent.getStringExtra("description")
         val descriptionTv = findViewById<TextView>(R.id.treasureDescription)
         descriptionTv.text = description
 
-        val pirates = intent.getStringExtra("pirates_joined")
+        val pirates = intent.getStringExtra("pirates")
         val piratesTv = findViewById<TextView>(R.id.pirateCount)
 
         //get the amount joined from the database in the treasure hunt
 
         piratesTv.text = pirates
 
-        val plundered = intent.getStringExtra("plundered_joined")
+        val plundered = intent.getStringExtra("plundered")
         val plunderedTv = findViewById<TextView>(R.id.plundered_treasure_tv)
         plunderedTv.text = plundered
 
-        val fullDate = intent.getStringExtra("fullDate_joined")
+        val fullDate = intent.getStringExtra("fullDate")
         val fullDateTv = findViewById<TextView>(R.id.startDate)
         fullDateTv.text = fullDate
 
-        val fullLocation = intent.getStringExtra("fullLocation_joined")
+        val fullLocation = intent.getStringExtra("fullLocation")
         val fullLocationTv = findViewById<TextView>(R.id.treasureLocation)
         fullLocationTv.text = fullLocation
 
-        val pfp = intent.getIntExtra("pfp_joined", 0)
+        val pfp = intent.getIntExtra("pfp", 0)
         val pfpTv = findViewById<ImageView>(R.id.treasureImage)
 
         pfp.let {
@@ -62,7 +62,7 @@ class JoinedTreasureActivity : AppCompatActivity() {
                 .into(pfpTv)
         }
 
-        val postImage = intent.getIntExtra("postImage_joined", 0)
+        val postImage = intent.getIntExtra("postImage", 0)
         val postImageTv = findViewById<ImageView>(R.id.postImageIv)
         postImageTv.setImageResource(postImage)
 

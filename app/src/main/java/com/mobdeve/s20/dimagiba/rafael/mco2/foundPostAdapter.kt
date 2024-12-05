@@ -26,15 +26,14 @@ class foundPostAdapter (private val data: ArrayList<TreasureHunt>, private val c
         myViewHolder.itemView.setOnClickListener {
             val intent : Intent = Intent(myViewHolder.itemView.context, FoundTreasureActivity::class.java)
 
-            intent.putExtra("username_found", viewBinding.usernameTv.text.toString())
-            intent.putExtra("description_found", viewBinding.descriptionTv.text.toString())
-            intent.putExtra("pirates_found", viewBinding.participantsTv.text.toString())
-            intent.putExtra("plundered_found", viewBinding.winnersTv.text.toString())
-            intent.putExtra("pfp_found", viewBinding.userImageIv.tag as? Int)
-            intent.putExtra("postImage_found", viewBinding.treasureImageIv.tag as? Int)
-            intent.putExtra("fullDate_found", viewBinding.fullDateTv.text.toString())
-            intent.putExtra("fullLocation_found", viewBinding.fullLocationTv.text.toString())
-            intent.putExtra("foundDate_found", viewBinding.foundDateTv.text.toString())
+            intent.putExtra("username", viewBinding.usernameTv.text.toString())
+            intent.putExtra("description", viewBinding.descriptionTv.text.toString())
+            intent.putExtra("pirates", viewBinding.participantsTv.text.toString())
+            intent.putExtra("plundered", viewBinding.winnersTv.text.toString())
+            intent.putExtra("pfp", viewBinding.userImageIv.tag as? Int)
+            intent.putExtra("postImage", viewBinding.treasureImageIv.tag as? Int)
+            intent.putExtra("fullDate", viewBinding.fullDateTv.text.toString())
+            intent.putExtra("fullLocation", viewBinding.fullLocationTv.text.toString())
 
             context.startActivity(intent)
         }
