@@ -13,7 +13,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -72,6 +74,20 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var foundPostAdapter: foundPostAdapter
     private lateinit var usernameText: TextView
 
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        if (::ownPostAdapter.isInitialized) {
+            ownPostAdapter.notifyDataSetChanged()
+        }
+        if (::joinedPostAdapter.isInitialized) {
+            joinedPostAdapter.notifyDataSetChanged()
+        }
+        if (::foundPostAdapter.isInitialized) {
+            foundPostAdapter.notifyDataSetChanged()
+        }
+    }
+
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         val inflater: MenuInflater = popupMenu.menuInflater
@@ -110,7 +126,6 @@ class UserProfileActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         //getting reference to database
         val db = FirebaseFirestore.getInstance()
 

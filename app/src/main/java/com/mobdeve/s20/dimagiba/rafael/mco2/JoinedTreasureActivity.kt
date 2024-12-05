@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -7,13 +8,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 
 class JoinedTreasureActivity : AppCompatActivity() {
+    private val claimingLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            finish()
+            val builder = AlertDialog.Builder(this@JoinedTreasureActivity)
+            builder.setTitle("Yahoo!")
+            builder.setMessage("You successfully claimed the treasure!")
 
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss() // Close the dialog when OK is clicked
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +93,8 @@ class JoinedTreasureActivity : AppCompatActivity() {
 
         joinButton.setOnClickListener {
             val intent = Intent(this, QRScannerActivity::class.java)
-            startActivity(intent)
+            claimingLauncher.launch(intent)
+
             //Toast.makeText(this, "Logic not yet implemented", Toast.LENGTH_SHORT).show()
 //            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
 //            finish()

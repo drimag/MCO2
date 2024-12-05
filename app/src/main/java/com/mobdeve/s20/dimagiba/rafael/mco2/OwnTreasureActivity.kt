@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -16,6 +19,21 @@ import com.bumptech.glide.Glide
 
 class OwnTreasureActivity : AppCompatActivity() {
 
+    private val verificationLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            finish()
+            val builder = AlertDialog.Builder(this@OwnTreasureActivity)
+            builder.setTitle("Hooray!")
+            builder.setMessage("Your treasure post has been verified! Other users can now join in your treasure hunt!")
+
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss() // Close the dialog when OK is clicked
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +108,7 @@ class OwnTreasureActivity : AppCompatActivity() {
 
         joinButton.setOnClickListener {
             val intent = Intent(this, QRScannerActivity::class.java)
-            startActivity(intent)
+            verificationLauncher.launch(intent)
             //Toast.makeText(this, "Logic not yet implemented", Toast.LENGTH_SHORT).show()
 //            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
 //            finish()

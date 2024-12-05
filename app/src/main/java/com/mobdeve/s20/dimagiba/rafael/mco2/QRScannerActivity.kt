@@ -1,5 +1,6 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -43,6 +44,9 @@ class QRScannerActivity : AppCompatActivity() {
         treasureRef.update("verified", true)
             .addOnSuccessListener {
                 Toast.makeText(this, "Verified!", Toast.LENGTH_LONG).show()
+                val intent : Intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error verifying treasure", e)
@@ -56,6 +60,10 @@ class QRScannerActivity : AppCompatActivity() {
                 treasureRef.update("participants", FieldValue.arrayRemove(userId))
                     .addOnSuccessListener {
                         updateUserHuntLists(userRef, treasureID)
+                        Toast.makeText(this, "Treasure Claimed!", Toast.LENGTH_LONG).show()
+                        val intent : Intent = Intent()
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
                     }
                     .addOnFailureListener { e ->
                         Log.e("Firestore", "Error removing user from participants", e)
@@ -122,6 +130,7 @@ class QRScannerActivity : AppCompatActivity() {
                     if (posts?.contains(treasureID) == true) { // the scanned post is the user's
                         // this means they are attempting to verify posting
                         verifyTreasure(treasureRef)
+
                     } else {
                         // update winners and participants since its not their post, they are a participant (possible also they just found it)
                         treasureRef.get().addOnSuccessListener { treasureSnapshot ->
@@ -131,6 +140,7 @@ class QRScannerActivity : AppCompatActivity() {
                             }
 
                             updateTreasureParticipantsAndWinners(treasureRef, userRef, userId, treasureID)
+
                         }.addOnFailureListener { e ->
                             Log.e("Firestore", "Error retrieving treasure", e)
                         }
