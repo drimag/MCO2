@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var postAdapter: postAdapter
     private lateinit var userProfilePic: ImageView
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showLocationFilterDialog() {
         val locations = arrayOf(
             "All",
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Select Location")
             .setItems(locations) { dialog, which ->
                 val selectedLocation = locations[which]
-                Toast.makeText(this, "Filtered by $selectedLocation (Logic not implemented)", Toast.LENGTH_SHORT).show()
+                filterTreasureLocation(selectedLocation)
 //                filtered_data = data.filter { it.location.getCity().toString() == selectedLocation } as ArrayList<TreasureHunt>
             }
             .show()
@@ -349,7 +350,83 @@ class MainActivity : AppCompatActivity() {
 
             treasuresList.clear()
             treasuresList.addAll(filteredList)
-            Toast.makeText(this, "filteredlist size: ${filteredList.count()}", Toast.LENGTH_SHORT).show()
+            // Update adapter with the filtered list
+            treasuresAdapter.notifyDataSetChanged()
+
+        }
+
+        // Load profile image
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val pfpString = sharedPreferences.getString("pfp", null)
+        val pfp = pfpString?.let { getDrawableIdFromString(it) }
+
+        Glide.with(this)
+            .load(pfp)
+            .circleCrop()
+            .into(viewBinding.profileImage)
+
+        // Navigate to user profile on profile image click
+        viewBinding.profileImage.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+
+        // Filter icon click listener
+        viewBinding.filterIcon.setOnClickListener { view ->
+            showPopupMenu(view)
+        }
+
+        // Floating Action Button click listener for adding new treasures
+        viewBinding.fab.setOnClickListener {
+            val intent = Intent(this, AddTreasureActivity::class.java).apply {
+                putExtra("userPFP", R.drawable.chopper)
+            }
+            newTreasureResultLauncher.launch(intent)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun filterTreasureLocation(filterType: String) {
+        val db = FirebaseFirestore.getInstance()
+        val treasuresList = ArrayList<TreasureHunt>()
+        val treasuresAdapter = postAdapter(treasuresList, this)
+
+        // Inflate and set the view binding
+        val viewBinding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+
+        // Set up RecyclerView
+        viewBinding.recyclerView.apply {
+            adapter = treasuresAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+
+        // Fetch data from Firestore
+        db.collection("Treasures").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                // Handle error
+                Toast.makeText(this, "Error fetching treasures: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+
+            snapshot?.let {
+                treasuresList.clear()
+                treasuresList.addAll(it.documents.map { document ->
+
+                    document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                }.filterNotNull()) // Filter out any null objects
+            }
+
+            val filteredList = when (filterType) {
+                "All" -> treasuresList // Show all treasures regardless of location
+                else -> {
+                    treasuresList.filter { treasure ->
+                        treasure.location.contains(filterType, ignoreCase = true) // Check if the location contains the filter string
+                    }
+                }
+            }.toCollection(ArrayList())
+
+            treasuresList.clear()
+            treasuresList.addAll(filteredList)
             // Update adapter with the filtered list
             treasuresAdapter.notifyDataSetChanged()
 
