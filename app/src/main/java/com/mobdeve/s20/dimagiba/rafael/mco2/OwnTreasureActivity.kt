@@ -91,7 +91,7 @@ class OwnTreasureActivity : AppCompatActivity() {
         joinButton.setOnClickListener {
             val intent = Intent(this, QRScannerActivity::class.java)
             startActivity(intent)
-            Toast.makeText(this, "Logic not yet implemented", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Logic not yet implemented", Toast.LENGTH_SHORT).show()
 //            Toast.makeText(this, "You joined the Hunt!", Toast.LENGTH_SHORT).show()
 //            finish()
         }
