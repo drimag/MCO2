@@ -44,15 +44,25 @@ class RegisterActivity : AppCompatActivity() {
             //send query to firebase for this
             val username = regUsername.text.toString()
             val password = regPassword.text.toString()
+            val passwordRegex = Regex("^(?=.*[0-9])(?=.*[!@#\$%^&*(),.?\":{}|<>])[a-zA-Z0-9!@#\$%^&*(),.?\":{}|<>]{8,}$")
 
-            registerUser(username, password) { success, message ->
-                if (success) {
-                    Toast.makeText(this, "User registered successfully!", Toast.LENGTH_SHORT).show()
 
-                    // Navigate to the next screen
+            if (username.length in 6..18){
+                if(password.matches(passwordRegex)){
+                    registerUser(username, password) { success, message ->
+                        if (success) {
+                            Toast.makeText(this, "User registered successfully!", Toast.LENGTH_SHORT).show()
+
+                            // Navigate to the next screen
+                        } else {
+                            Toast.makeText(this, "Registration failed: $message", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(this, "Registration failed: $message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Must follow the password guidelines!", Toast.LENGTH_SHORT).show()
                 }
+            }else {
+                Toast.makeText(this, "Must have at least 6-8 characters", Toast.LENGTH_SHORT).show()
             }
 
         }
