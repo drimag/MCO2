@@ -3,6 +3,7 @@ package com.mobdeve.s20.dimagiba.rafael.mco2
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobdeve.s20.dimagiba.rafael.mco2.databinding.MainActivityBinding
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,28 +83,30 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showPopupMenu(view: View) {
         // Inflate the menu resource
         val popupMenu = PopupMenu(this, view)
         val inflater: MenuInflater = popupMenu.menuInflater
         inflater.inflate(R.menu.filter_menu, popupMenu.menu)
 
+
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.filter_by_today -> {
-                    Toast.makeText(this, "filter by today selected", Toast.LENGTH_SHORT).show()
+                    filterTreasures("Posted Today")
                     true
                 }
                 R.id.filter_by_last_week -> {
-                    Toast.makeText(this, "filter by last weekselected", Toast.LENGTH_SHORT).show()
+                    filterTreasures("Posted Last Week")
                     true
                 }
                 R.id.filter_by_last_month -> {
-                    Toast.makeText(this, "filter by last month selected", Toast.LENGTH_SHORT).show()
+                    filterTreasures("Posted Last Month")
                     true
                 }
                 R.id.filter_by_year -> {
-                    Toast.makeText(this, "filter by year selected", Toast.LENGTH_SHORT).show()
+                    filterTreasures("Posted This Year")
                     true
                 }
                 R.id.filter_by_location -> {
@@ -111,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
         popupMenu.show()
     }
 
@@ -131,6 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -275,6 +282,105 @@ class MainActivity : AppCompatActivity() {
             return resources.getIdentifier(resourceName, "drawable", packageName)
         } else {
             throw IllegalArgumentException("Invalid drawable string: $drawableString")
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun filterTreasures(filterType: String) {
+        val db = FirebaseFirestore.getInstance()
+        val treasuresList = ArrayList<TreasureHunt>()
+        val treasuresAdapter = postAdapter(treasuresList, this)
+
+        // Inflate and set the view binding
+        val viewBinding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+
+        // Set up RecyclerView
+        viewBinding.recyclerView.apply {
+            adapter = treasuresAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+
+        // Fetch data from Firestore
+        db.collection("Treasures").addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                // Handle error
+                Toast.makeText(this, "Error fetching treasures: ${error.message}", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+
+            snapshot?.let {
+                treasuresList.clear()
+                treasuresList.addAll(it.documents.map { document ->
+
+                    document.toObject(TreasureHunt::class.java)?.copy(id = document.id)
+                }.filterNotNull()) // Filter out any null objects
+            }
+
+            val now = LocalDate.now()
+            // Filter treasures based on the filter type
+            val filteredList = when (filterType) {
+                "Posted Today" -> {
+                    val startOfDay = now.minusDays(1)
+                    treasuresList.filter { treasure ->
+                        treasure.toLocalDate()?.isAfter(startOfDay) == true
+                    }
+                }
+                "Posted Last Week" -> {
+                    val oneWeekAgo = now.minusWeeks(1)
+                    treasuresList.filter { treasure ->
+                        treasure.toLocalDate()?.isAfter(oneWeekAgo) == true
+                    }
+                }
+                "Posted Last Month" -> {
+                    val oneMonthAgo = now.minusMonths(1)
+                    treasuresList.filter { treasure ->
+                        treasure.toLocalDate()?.isAfter(oneMonthAgo) == true
+                    }
+                }
+                "Posted This Year" -> {
+                    val startOfYear = now.withDayOfYear(1)
+                    treasuresList.filter { treasure ->
+                        treasure.toLocalDate()?.isAfter(startOfYear.minusDays(1)) == true
+                    }
+                }
+                else -> treasuresList // Default: show all
+            }.toCollection(ArrayList()) // Ensure we convert to ArrayList
+
+            treasuresList.clear()
+            treasuresList.addAll(filteredList)
+            Toast.makeText(this, "filteredlist size: ${filteredList.count()}", Toast.LENGTH_SHORT).show()
+            // Update adapter with the filtered list
+            treasuresAdapter.notifyDataSetChanged()
+
+        }
+
+        // Load profile image
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        val pfpString = sharedPreferences.getString("pfp", null)
+        val pfp = pfpString?.let { getDrawableIdFromString(it) }
+
+        Glide.with(this)
+            .load(pfp)
+            .circleCrop()
+            .into(viewBinding.profileImage)
+
+        // Navigate to user profile on profile image click
+        viewBinding.profileImage.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+
+        // Filter icon click listener
+        viewBinding.filterIcon.setOnClickListener { view ->
+            showPopupMenu(view)
+        }
+
+        // Floating Action Button click listener for adding new treasures
+        viewBinding.fab.setOnClickListener {
+            val intent = Intent(this, AddTreasureActivity::class.java).apply {
+                putExtra("userPFP", R.drawable.chopper)
+            }
+            newTreasureResultLauncher.launch(intent)
         }
     }
 

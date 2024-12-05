@@ -1,5 +1,11 @@
 package com.mobdeve.s20.dimagiba.rafael.mco2
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 /*
 class TreasureHunt(
     var description: String,
@@ -82,5 +88,17 @@ data class TreasureHunt(
         this.date = Date
         this.location = Location
         this.posterPfp = posterPfp
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    public fun toLocalDate(): LocalDate? {
+        return try {
+            date.let {
+                LocalDateTime.parse(it, DateTimeFormatter.ISO_DATE_TIME).toLocalDate()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 }
